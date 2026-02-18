@@ -51,7 +51,8 @@ bundle unrelated fixes.
 ### What This Repo Doesn't Need Right Now
 
 - **Tooling, scripts, parsers, or linters.** This repo is deliberately
-  minimal — a spec and its docs. Tooling may come later in separate repos.
+  minimal — a spec, its docs, and a lightweight install/release pipeline.
+  Additional tooling may come later in separate repos.
 - **Sample logs in `AI_ATTRIBUTION.md`.** The spec ships with an empty log
   section. Sample content belongs in the README or a future examples
   directory.
@@ -85,12 +86,26 @@ If you used AI assistance, we'd appreciate a note in your PR description
 saying which tool you used and how. This is optional but encouraged — it's
 good practice and it's what this project advocates.
 
-## Versioning
+## Versioning and Releases
 
 The spec uses dual semver: **Spec version** and **Log schema version**.
 Your PR should indicate which version(s) need bumping. If you're not sure,
 say so in the PR — reviewers will help figure it out. See `CLAUDE.md` for
 detailed versioning rules.
+
+Releases are handled by maintainers after merging. The process is:
+
+1. Merge the PR to `main`
+2. Create an annotated git tag matching the new spec version (e.g.,
+   `git tag -a v1.1.0 -m "AI Attribution Log v1.1.0"`)
+3. Push the tag (`git push origin v1.1.0`)
+
+A GitHub Actions workflow automatically creates a GitHub Release with
+`AI_ATTRIBUTION.md` attached as a downloadable asset. The install script
+picks up the latest release automatically — no manual updates needed.
+
+As a contributor, you don't need to worry about releases. Just make sure
+your PR includes the appropriate version bump and changelog entry.
 
 ## Internal Consistency
 

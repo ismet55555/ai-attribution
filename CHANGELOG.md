@@ -47,3 +47,7 @@ structure). These are tracked independently in the file header.
 - **Other Attribution Mechanisms** section clarifying coexistence with
   LICENSE, CONTRIBUTORS, CHANGELOG, CODEOWNERS, and third-party notices.
 - **Entry template** for markdown format with multi-tool example.
+- **Install script** (`install.sh`) for one-liner adoption with version
+  pinning and overwrite protection.
+- **GitHub Actions release workflow** that creates releases with
+  `AI_ATTRIBUTION.md` attached when version tags are pushed.

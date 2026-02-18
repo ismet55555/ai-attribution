@@ -21,6 +21,7 @@ README.md           — Project overview and adoption guide
 CHANGELOG.md        — Version history (Keep a Changelog format)
 LICENSE             — CC-BY-4.0
 CLAUDE.md           — This file
+install.sh          — One-liner install script for adopters
 .github/
   CONTRIBUTING.md         — Contribution guidelines and policies
   ISSUE_TEMPLATE/
@@ -28,6 +29,8 @@ CLAUDE.md           — This file
     feature_request.yml   — Feature request form template
     config.yml            — Disables blank issues, links to Discussions
   pull_request_template.md — PR template
+  workflows/
+    release.yml           — GitHub Actions workflow (creates releases on version tags)
 ```
 
 ## Critical Rule: Do Not Write to AI_ATTRIBUTION.md's Log Section
@@ -86,6 +89,29 @@ When bumping versions, update all three locations:
 2. The Current Version heading in the Migration section
 3. The CHANGELOG.md
 
+### Releasing
+
+Releases are automated via GitHub Actions. The workflow is triggered by
+pushing a version tag. To cut a release:
+
+1. Ensure all changes are committed and pushed to `main`.
+2. Create an annotated tag: `git tag -a vX.X.X -m "AI Attribution Log vX.X.X"`
+3. Push the tag: `git push origin vX.X.X`
+
+The workflow (`.github/workflows/release.yml`) will:
+- Create a GitHub Release named "AI Attribution Log vX.X.X"
+- Attach `AI_ATTRIBUTION.md` as a downloadable asset
+- Include install instructions in the release body
+- Automatically mark tags containing `-rc`, `-beta`, or `-alpha` as
+  pre-releases
+
+The tag version should match the spec version in `AI_ATTRIBUTION.md`.
+Always tag from `main` after all version bumps and changelog updates are
+committed.
+
+The install script (`install.sh`) resolves the latest release tag
+automatically, so it does not need updating when a new version is released.
+
 ### Changelog conventions
 
 Follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
@@ -121,8 +147,8 @@ PRs that modify the spec should:
 
 - Do not add log entries to `AI_ATTRIBUTION.md`. It is a distributable
   template and must ship with an empty log.
-- Do not add tooling, scripts, parsers, or automation to this repo without
-  discussion. The repo is deliberately minimal — a spec and its docs.
+- Do not add tooling, scripts, parsers, or automation beyond what already
+  exists (`install.sh`, `.github/workflows/release.yml`) without discussion.
 - Do not change the log format examples without also verifying they parse
   correctly in their respective formats (valid JSON for jsonl, valid CSV
   semantics for toon).
