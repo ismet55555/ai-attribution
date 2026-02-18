@@ -1,0 +1,108 @@
+name: Bug Report
+description: Something in the spec is ambiguous, contradictory, or broken
+title: "[Bug]: "
+labels: ["bug", "triage"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this!
+        Bugs in a spec are things like: contradictory instructions, ambiguous level
+        definitions, broken examples, inconsistent references, or formatting issues.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What's the problem?
+      description: Describe what's wrong, confusing, or contradictory in the spec.
+      placeholder: |
+        Example: The GUIDED level definition says "the human did not arrive at the
+        approach independently" but the ASSISTED decision test could also apply when
+        AI suggests an approach and the human then specifies the structure...
+    validations:
+      required: true
+
+  - type: textarea
+    id: where-in-spec
+    attributes:
+      label: Where in the spec?
+      description: Which section(s), line(s), or level(s) are affected?
+      placeholder: |
+        Example: Involvement Levels > GUIDED definition and ASSISTED decision test
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested fix
+      description: If you have an idea for how to resolve this, describe it here.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: How bad is it?
+      options:
+        - "Confusing — I had to re-read it a few times"
+        - "Ambiguous — reasonable people would interpret it differently"
+        - "Contradictory — two parts of the spec disagree"
+        - "Broken — an example is invalid or a reference is wrong"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: discovered-by
+    attributes:
+      label: How did you find this?
+      options:
+        - Reading the spec
+        - Using it in a project
+        - An LLM flagged it while following the instructions
+        - Reviewing someone else's attribution log
+        - Other
+    validations:
+      required: false
+
+  - type: input
+    id: llm-model
+    attributes:
+      label: LLM model used
+      description: If an LLM was involved when you found this, which model?
+      placeholder: "Example: Claude Sonnet 4.5 (claude-sonnet-4-5-20250929)"
+    validations:
+      required: false
+
+  - type: input
+    id: llm-interface
+    attributes:
+      label: LLM interface / tool
+      description: How were you interacting with the LLM?
+      placeholder: "Example: Claude Code, Cursor, VS Code + Copilot, claude.ai, API"
+    validations:
+      required: false
+
+  - type: input
+    id: spec-version
+    attributes:
+      label: Spec version
+      description: Which version of AI_ATTRIBUTION.md are you using?
+      placeholder: "Example: 1.0.0"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: day-check
+    attributes:
+      label: How is your day going?
+      options:
+        - Amazing!
+        - Pretty good
+        - Not bad
+        - Meh
+        - Terrible
+        - Ugh, don't remind me
+    validations:
+      required: false

@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: echo "tag=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: AI Attribution Log ${{ steps.version.outputs.tag }}
+          body: |
+            ## Install
+
+            **One-liner:**
+            ```bash
+            curl -sL https://raw.githubusercontent.com/${{ github.repository }}/main/install.sh | sh
+            ```
+
+            **This version specifically:**
+            ```bash
+            curl -sL https://raw.githubusercontent.com/${{ github.repository }}/main/install.sh | sh -s -- --version ${{ steps.version.outputs.tag }}
+            ```
+
+            **Direct download:**
+            Download `AI_ATTRIBUTION.md` from the assets below and place it in your project root.
+
+            ---
+
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ steps.version.outputs.tag }}/CHANGELOG.md) for what changed.
+          files: AI_ATTRIBUTION.md
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.tag, '-rc') || contains(steps.version.outputs.tag, '-beta') || contains(steps.version.outputs.tag, '-alpha') }}

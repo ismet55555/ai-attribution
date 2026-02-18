@@ -1,0 +1,49 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+Versioning applies to both the **spec** (instructions, configuration,
+framing — everything above the Log) and the **log schema** (entry field
+structure). These are tracked independently in the file header.
+
+---
+
+## [1.0.0] — 2026-02-17
+
+### Added
+
+- **Six involvement levels** based on creative control: GENERATED, ASSISTED,
+  GUIDED, INFORMED, REVIEWED, NONE — each with a decision test for
+  consistent classification.
+- **Contribution type vocabulary** with eight scope tags (concept, design,
+  code, content, test, config, docs, general) for tracing what kind of work
+  AI contributed.
+- **Three log formats**: markdown (human-readable default), jsonl
+  (machine-parseable), and toon (token-efficient).
+- **Dual versioning**: independent spec version and log schema version
+  using semver, enabling non-breaking spec updates without touching log
+  entries.
+- **Migration system** with migration notes that record model identity,
+  changes applied, and issues encountered during upgrades.
+- **Consolidation rules**: feature/module grouping first, monthly fallback,
+  separate grouping for human-only (NONE) entries, requires human
+  permission before executing.
+- **Multi-tool support**: single entry per task with all AI tools and their
+  contributions listed.
+- **AI Config Integration snippet** with section-targeting guidance so LLMs
+  skip human-only sections when writing log entries.
+- **Responsibility framing** establishing that the human always owns the
+  outcome and the log enables informed rather than vague accountability.
+- **13 LLM responsibilities** covering honest logging, scope tagging, manual
+  entry reformatting, consolidation, format conversion, migration logging,
+  and multi-tool attribution.
+- **Granularity settings** (COARSE, STANDARD, FINE) for scaling entry detail
+  to project needs.
+- **Why Use This File** section leading with the debugging and protection
+  use case.
+- **Other Attribution Mechanisms** section clarifying coexistence with
+  LICENSE, CONTRIBUTORS, CHANGELOG, CODEOWNERS, and third-party notices.
+- **Entry template** for markdown format with multi-tool example.

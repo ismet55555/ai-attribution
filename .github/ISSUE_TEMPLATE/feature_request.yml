@@ -1,0 +1,101 @@
+name: Feature Request
+description: Suggest a change or addition to the spec
+title: "[Feature]: "
+labels: ["feature-request"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest an improvement!
+        Features for a spec are things like: new levels, new scope tags, new
+        configuration options, better decision tests, or structural changes.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: What's missing, limiting, or awkward in the current spec?
+      placeholder: |
+        Example: There's no way to distinguish between AI-generated tests that
+        validate AI-generated code vs. tests that validate human-written code.
+        The scope tag "test" doesn't capture this difference...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you change or add?
+      description: Describe your proposed solution. Be as specific as you can.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
+      description: Any other approaches you thought about and why they don't work as well.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: What part of the spec does this affect?
+      description: Pick the closest match.
+      multiple: true
+      options:
+        - Involvement levels
+        - Contribution types / scope tags
+        - LLM instructions
+        - Configuration options
+        - Log schema / entry format
+        - Migration system
+        - Framing / Why Use This File
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: breaking
+    attributes:
+      label: Would this be a breaking change for existing adopters?
+      options:
+        - "Yes — existing logs or configs would need to change"
+        - "No — fully backward compatible"
+        - "Not sure"
+    validations:
+      required: true
+
+  - type: input
+    id: llm-model
+    attributes:
+      label: LLM model used
+      description: If an LLM was involved in discovering this need, which model?
+      placeholder: "Example: Claude Sonnet 4.5 (claude-sonnet-4-5-20250929)"
+    validations:
+      required: false
+
+  - type: input
+    id: llm-interface
+    attributes:
+      label: LLM interface / tool
+      description: How were you interacting with the LLM?
+      placeholder: "Example: Claude Code, Cursor, VS Code + Copilot, claude.ai, API"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: day-check
+    attributes:
+      label: How is your day going?
+      options:
+        - Amazing!
+        - Pretty good
+        - Not bad
+        - Meh
+        - Terrible
+        - Ugh, don't remind me
+    validations:
+      required: false

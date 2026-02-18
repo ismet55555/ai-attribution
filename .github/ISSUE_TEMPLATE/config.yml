@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussions
+    url: https://github.com/ismet55555/ai-attribution/discussions
+    about: For general questions, ideas, or conversations that aren't bugs or feature requests
