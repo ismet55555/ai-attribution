@@ -11,6 +11,30 @@ structure). These are tracked independently in the file header.
 
 ---
 
+## [1.0.2] — 2026-02-19
+
+### Added
+
+- **Fields table** in Log Schema: concise schema listing all nine entry
+  fields with type, required/optional/conditional status, and descriptions.
+
+### Removed
+
+- **Entry Template section** (was placed after the Log section). The Log
+  Schema fields table and format examples now serve this purpose.
+
+### Changed
+
+- **Log Format Examples** section renamed to **Log Schema** with **Fields**
+  subsection — better reflects that this section defines the entry schema.
+- `ai` and `tool` fields changed from optional to **conditional** (required
+  when level is not `NONE`).
+- **Migration** section moved before LLM Instructions, grouping it with the
+  other human-facing sections.
+- References to "entry template" updated throughout.
+
+---
+
 ## [1.0.1] — 2026-02-18
 
 ### Added

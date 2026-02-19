@@ -120,8 +120,8 @@ typically need updating:
 - Summary table
 - Configuration section
 - LLM instructions (all numbered responsibilities)
-- Entry template
-- Log format examples (markdown, jsonl, toon)
+- Field reference
+- Log schema (fields and format examples)
 
 ## Code of Conduct
 

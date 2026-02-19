@@ -4,7 +4,7 @@
 
 **Know exactly what the AI did and what it didn't.**
 
-[![Spec Version](https://img.shields.io/badge/spec-v1.0.1-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
+[![Spec Version](https://img.shields.io/badge/spec-v1.0.2-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
 [![Log Schema](https://img.shields.io/badge/schema-v1.0.0-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
 [![License: CC-BY-4.0](https://img.shields.io/badge/license-CC--BY--4.0-green?style=flat-square)](LICENSE)
 [![Markdown](https://img.shields.io/badge/format-markdown-purple?style=flat-square)](#how-it-works)
@@ -133,13 +133,14 @@ three steps:
     - Configuration (for current settings)
     - Involvement Levels (for level selection)
     - Contribution Types (for scope tagging)
-    - Log + Entry Template (for format and placement)
+    - Log Schema → Fields (for required/optional fields)
+    - Log (for placement)
 
     Skip these sections (they are for humans or for rare operations):
     - Why Use This File (human-facing rationale)
     - Other Attribution Mechanisms (human reference)
     - Granularity descriptions (you already have the setting from Configuration)
-    - Log Format Examples (unless the format setting was just changed)
+    - Log Schema → format examples (unless the format setting was just changed)
     - Migration (only relevant during version upgrades)
     ```
 

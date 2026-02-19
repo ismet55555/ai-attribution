@@ -1,6 +1,6 @@
 # AI Attribution Log
 
-`Spec version: 1.0.1` · `Log schema: 1.0.0`
+`Spec version: 1.0.2` · `Log schema: 1.0.0`
 
 ## Why Use This File
 
@@ -71,7 +71,7 @@ consolidation.*
 **Log format:** `markdown`
 
 *Options: `markdown`, `jsonl`, `toon`. Controls how entries in the Log
-section are formatted. See Log Format Examples below for what each looks
+section are formatted. See Log Schema below for what each looks
 like. If you change this setting, the LLM must convert all existing log
 entries to the new format without losing any content.*
 
@@ -122,18 +122,64 @@ When writing a log entry, focus on these sections:
 - Configuration (for current settings)
 - Involvement Levels (for level selection)
 - Contribution Types (for scope tagging)
-- Log + Entry Template (for format and placement)
+- Log Schema → Fields (for required/optional fields)
+- Log (for placement)
 
 Skip these sections (they are for humans or for rare operations):
 - Why Use This File (human-facing rationale)
 - Other Attribution Mechanisms (human reference)
 - Granularity descriptions (you already have the setting from Configuration)
-- Log Format Examples (unless the format setting was just changed)
+- Log Schema → format examples (unless the format setting was just changed)
 - Migration (only relevant during version upgrades)
 ```
 
 This keeps token usage low by loading the full file only when needed and
 directing the LLM to the sections that matter for the current operation.
+
+---
+
+## Migration
+
+This section is used when upgrading to a newer version of AI_ATTRIBUTION.md.
+
+Each new version includes migration instructions here. To upgrade: download
+the new version's template, then tell your LLM "migrate my AI_ATTRIBUTION.md
+to the new version using this template." The LLM will replace everything
+above the Log with the new spec, preserve your log entries, and transform
+entries if the log schema changed.
+
+For non-breaking updates (spec version change only), the LLM replaces
+everything above `## Log` and leaves your entries untouched.
+
+For breaking updates (log schema change), the migration instructions below
+will specify exactly what fields to add, rename, or restructure. Your git
+history preserves the pre-migration state.
+
+### Current Version
+
+**Spec:** `1.0.2` · **Log schema:** `1.0.0`
+
+This is the initial release. No migrations available.
+
+### Migration Notes
+
+Each migration is logged here automatically by the LLM that performs it.
+Format:
+
+```
+#### [YYYY-MM-DD HH:MM UTC] — Spec `X.X.X` → `X.X.X` · Log schema `X.X.X` → `X.X.X`
+
+**Model:** Friendly Name (`exact-model-string`)
+**Changes applied:** What was migrated — fields added, renamed, entries
+transformed, or spec-only update with no entry changes.
+**Issues:** Any problems encountered, ambiguities resolved, or entries that
+needed manual review. `None` if clean.
+```
+
+When the exact model string is not available, use `unknown`:
+`Claude Sonnet (unknown)` or `Unknown Model (unknown)`
+
+*No migrations have been performed yet.*
 
 ---
 
@@ -200,7 +246,7 @@ owns the outcome. Your job is to make that ownership precise.
 
 9. **Reformat manual entries in place.** The human may add entries by hand
    in any format. When you encounter a manually added entry, reformat it
-   into the current log schema format without losing any content. Add
+   into the current log format without losing any content. Add
    `(LLM reformatted)` to the Notes field so the human can verify. If the
    manual entry has no scope tag, use `general`. The original is preserved
    in git history.
@@ -250,8 +296,8 @@ owns the outcome. Your job is to make that ownership precise.
 
 15. **Validate entries when writing or reading them.** Each time you add,
     reformat, or consolidate an entry, verify:
-    - All required fields are present (date, title, level, scope, human
-      contribution).
+    - All required fields are present: date, title, level, scope, human.
+      When level is not NONE, ai and tool are also required.
     - The level is one of the six valid levels (`GENERATED`, `ASSISTED`,
       `GUIDED`, `INFORMED`, `REVIEWED`, `NONE`).
     - Scope tags are from the controlled vocabulary (`concept`, `design`,
@@ -282,9 +328,9 @@ owns the outcome. Your job is to make that ownership precise.
 ### How to Write an Entry
 
 - Place new entries at the top of the Log section (reverse chronological).
-- Use the compact format shown in the entry template below.
-- Separate each field with a blank line for readability.
-- Separate each entry with a horizontal rule (`---`) between them.
+- Use the format shown in the Log Schema section.
+- For `markdown` format: separate each field with a blank line for
+  readability, and separate entries with a horizontal rule (`---`).
 - Be concrete: reference file names, function names, concepts — not vague
   summaries like "helped with code."
 - Include git commit hashes or ranges when available. These corroborate
@@ -425,7 +471,21 @@ specify one, use `general`.
 
 ---
 
-## Log Format Examples
+## Log Schema
+
+### Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `date` | date | yes | `YYYY-MM-DD` when the work happened |
+| `title` | text | yes | Short description of the task or unit of work |
+| `level` | enum | yes | Involvement level — one of the six defined levels, with emoji prefix |
+| `scope` | enum | yes | One or two tags from the controlled vocabulary |
+| `human` | text | yes | What the human contributed |
+| `ai` | text | conditional | What the AI contributed — required when level is not `NONE` |
+| `tool` | text | conditional | AI tool name(s) — required when level is not `NONE` |
+| `commits` | list | no | Git commit hashes or ranges |
+| `notes` | text | no | Extra context, post-hoc changes, rejection reasons |
 
 ### `markdown` (default)
 
@@ -433,7 +493,7 @@ The most readable format. Best for projects where humans frequently read
 the log directly.
 
 ```
-### 2025-12-01 — Ball physics and tilt input [🟠 `ASSISTED` — code]
+### 2025-12-01 — Ball physics and tilt input [🟠 ASSISTED — code]
 
 **Human:** Designed the core tilt mechanic, tuned all physics constants.
 
@@ -454,9 +514,6 @@ readability. The entire log section is wrapped in a code block.
 {"date":"2025-11-10","title":"Maze generation algorithm","level":"⚪ NONE","scope":"code","human":"Wrote recursive backtracker from scratch.","ai":null,"tool":null,"commits":["8d1f3a2"]}
 ```
 ~~~
-
-Field reference: `date`, `title`, `level`, `scope`, `human`, `ai`, `tool`,
-`commits`, `notes`.
 
 ### `toon`
 
@@ -479,75 +536,7 @@ quoted. Null values are empty between delimiters.
 
 ---
 
-## Migration
-
-This section is used when upgrading to a newer version of AI_ATTRIBUTION.md.
-
-Each new version includes migration instructions here. To upgrade: download
-the new version's template, then tell your LLM "migrate my AI_ATTRIBUTION.md
-to the new version using this template." The LLM will replace everything
-above the Log with the new spec, preserve your log entries, and transform
-entries if the log schema changed.
-
-For non-breaking updates (spec version change only), the LLM replaces
-everything above `## Log` and leaves your entries untouched.
-
-For breaking updates (log schema change), the migration instructions below
-will specify exactly what fields to add, rename, or restructure. Your git
-history preserves the pre-migration state.
-
-### Current Version
-
-**Spec:** `1.0.1` · **Log schema:** `1.0.0`
-
-This is the initial release. No migrations available.
-
-### Migration Notes
-
-Each migration is logged here automatically by the LLM that performs it.
-Format:
-
-```
-#### [YYYY-MM-DD HH:MM UTC] — Spec `X.X.X` → `X.X.X` · Log schema `X.X.X` → `X.X.X`
-
-**Model:** Friendly Name (`exact-model-string`)
-**Changes applied:** What was migrated — fields added, renamed, entries
-transformed, or spec-only update with no entry changes.
-**Issues:** Any problems encountered, ambiguities resolved, or entries that
-needed manual review. `None` if clean.
-```
-
-When the exact model string is not available, use `unknown`:
-`Claude Sonnet (unknown)` or `Unknown Model (unknown)`
-
-*No migrations have been performed yet.*
-
----
-
 ## Log
 
 *No entries yet.*
 
----
-
-## Entry Template
-
-For `markdown` format, copy this for new entries:
-
-### [YYYY-MM-DD] — Title [🔴🟠🟡🔵🟢⚪ `LEVEL` — scope]
-
-**Human:** What the human contributed — ideas, direction, vision, code, edits, rejections.
-
-**AI ([Tool]):** What the AI contributed — code, suggestions, explanations.
-
-**Commits:** [list of commit hashes or ranges, e.g. `["a1b2c3d", "e4f5g6h..i7j8k9l"]`]
-
-**Notes:** Optional — extra context, what changed after, why something was rejected.
-
-For entries involving multiple AI tools:
-
-**AI (Claude, Copilot):** Claude designed the state management approach.
-Copilot provided autocomplete for boilerplate implementations.
-
-For `jsonl` and `toon` formats, follow the structure shown in the Log Format
-Examples section above.

@@ -62,8 +62,8 @@ When making changes:
   file is what adopters copy into their projects.
 - Internal consistency is critical. If you change a level name, it must be
   updated in: the level definitions, the summary table, the configuration
-  section, the LLM instructions (all references), the entry template, and
-  the log format examples. Grep before committing.
+  section, the LLM instructions (all references), the field reference, and
+  the log schema. Grep before committing.
 
 ### Versioning rules
 
@@ -132,7 +132,7 @@ consistently throughout the document.
 
 **Level consistency** — Every level defined in the Level Definitions
 section must appear identically in the Summary Table, all LLM Instructions
-references, the Entry Template, and the Log Format Examples. No orphaned
+references, the Log Schema fields, and the format examples. No orphaned
 references to levels that don't exist in the definitions.
 
 **Scope tag consistency** — Every tag defined in the Contribution Types
@@ -142,19 +142,19 @@ to undefined tags, no defined tags missing from the instructions.
 **Log format example validity** — The jsonl example must be valid JSON
 with field names matching the documented field reference. The toon example
 must match its declared schema header. The markdown example must follow
-the entry template structure.
+the markdown format example structure.
 
 **Version consistency** — The spec and log schema versions must match
 across all three locations: the file header, the Current Version heading
 in Migration, and the latest `CHANGELOG.md` entry.
 
-**Entry template field coverage** — The fields in the markdown entry
-template must correspond to the keys in the jsonl example and the columns
-in the toon schema header.
+**Field reference coverage** — The fields in the Field Reference table
+must correspond to the keys in the jsonl example, the columns in the toon
+schema header, and the fields shown in the markdown format example.
 
 **Section structure** — Expected sections exist and follow the documented
-order: human-facing context, configuration, LLM instructions, reference
-material, migration, log.
+order: human-facing context, configuration, migration, LLM instructions,
+reference material, log.
 
 **Log section is empty** — The Log section must contain only
 `*No entries yet.*` — this is the distributable template.
@@ -163,7 +163,7 @@ material, migration, log.
 API keys, tokens, or sensitive identifiers anywhere — including examples,
 code blocks, comments, and HTML. No executable content (script tags, HTML
 event handlers), no encoded/obfuscated blobs (base64, hex), no external
-URLs in log format examples or entry templates, and no prompt injection
+URLs in log schema examples, and no prompt injection
 patterns (system/role prompts, instruction overrides, hidden directives
 in HTML comments).
 
@@ -200,12 +200,12 @@ PRs that modify the spec should:
   template and must ship with an empty log.
 - Do not add tooling, scripts, parsers, or automation beyond what already
   exists (`install.sh`, `.github/workflows/release.yml`) without discussion.
-- Do not change the log format examples without also verifying they parse
+- Do not change the log schema format examples without also verifying they parse
   correctly in their respective formats (valid JSON for jsonl, valid CSV
   semantics for toon).
 - Do not add sample logs to `AI_ATTRIBUTION.md` itself. Sample logs belong
   in the README or in a separate examples directory if one is created.
 - Do not reorganize the section order of `AI_ATTRIBUTION.md` without strong
   justification. The order is deliberate: human-facing context first,
-  configuration second, LLM instructions third, reference material fourth,
-  migration and log last.
+  configuration second, migration third, LLM instructions fourth, reference
+  material fifth, log last.
