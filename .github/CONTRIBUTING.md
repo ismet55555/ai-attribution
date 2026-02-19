@@ -101,8 +101,10 @@ Releases are handled by maintainers after merging. The process is:
 3. Push the tag (`git push origin v1.1.0`)
 
 A GitHub Actions workflow automatically creates a GitHub Release with
-`AI_ATTRIBUTION.md` attached as a downloadable asset. The install script
-picks up the latest release automatically — no manual updates needed.
+`AI_ATTRIBUTION.md` attached as a downloadable asset. The workflow extracts
+the matching version's changelog section and includes it in the release
+notes alongside install instructions. The install script picks up the
+latest release automatically — no manual updates needed.
 
 As a contributor, you don't need to worry about releases. Just make sure
 your PR includes the appropriate version bump and changelog entry.

@@ -18,11 +18,34 @@ jobs:
         id: version
         run: echo "tag=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
 
+      - name: Extract changelog for this version
+        id: changelog
+        run: |
+          version="${GITHUB_REF#refs/tags/v}"
+          # Extract the section between this version's heading and the next ## or end of file
+          changelog=$(awk -v ver="$version" '
+            /^## \[/ { if (found) exit; if (index($0, "[" ver "]")) found=1; next }
+            /^---$/ { if (found) exit; next }
+            found { print }
+          ' CHANGELOG.md)
+          # Write to output using delimiter to handle multiline
+          {
+            echo "content<<CHANGELOG_EOF"
+            echo "$changelog"
+            echo "CHANGELOG_EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           name: AI Attribution Log ${{ steps.version.outputs.tag }}
           body: |
+            ## What Changed
+
+            ${{ steps.changelog.outputs.content }}
+
+            ---
+
             ## Install
 
             **One-liner:**
@@ -40,7 +63,7 @@ jobs:
 
             ---
 
-            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ steps.version.outputs.tag }}/CHANGELOG.md) for what changed.
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ steps.version.outputs.tag }}/CHANGELOG.md) for full version history.
           files: AI_ATTRIBUTION.md
           draft: false
           prerelease: ${{ contains(steps.version.outputs.tag, '-rc') || contains(steps.version.outputs.tag, '-beta') || contains(steps.version.outputs.tag, '-alpha') }}
