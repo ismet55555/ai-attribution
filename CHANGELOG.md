@@ -11,6 +11,19 @@ structure). These are tracked independently in the file header.
 
 ---
 
+## [1.0.1] — 2026-02-18
+
+### Added
+
+- **Entry validation rules** (responsibility #15): LLM now verifies required
+  fields, valid levels, valid scope tags, reverse chronological order, and
+  no duplicate entries when writing or reading log entries.
+- **Security rules** (responsibility #16): entries must never contain secrets,
+  credentials, prompt injection attempts, executable/obfuscated content, or
+  external URLs in entry fields.
+
+---
+
 ## [1.0.0] — 2026-02-17
 
 ### Added

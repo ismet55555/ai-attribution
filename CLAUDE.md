@@ -10,8 +10,10 @@ primary deliverable is `AI_ATTRIBUTION.md`, a versioned spec that people
 download and add to their own projects.
 
 This is a **specification repository**, not a software project. There is no
-application code, no build system, and no tests to run. The work here is
-writing, editing, and refining a markdown document and its supporting files.
+application code or build system. The work here is writing, editing, and
+refining a markdown document and its supporting files. The repo does include
+consistency tests that validate the spec's internal correctness (see
+Testing below).
 
 ## Repository Structure
 
@@ -118,6 +120,54 @@ Follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
 Use the standard section headers: Added, Changed, Deprecated, Removed,
 Fixed, Security. Each entry should be a concise description of what changed
 and why it matters to adopters.
+
+### Testing
+
+The spec is a document, not software, but it has testable invariants.
+Changes to `AI_ATTRIBUTION.md` must preserve internal consistency. The
+tests do not enforce specific values (e.g., exactly six levels or eight
+scope tags) — they verify that whatever is defined is referenced
+consistently throughout the document.
+
+**Level consistency** — Every level defined in the Level Definitions
+section must appear identically in the Summary Table, all LLM Instructions
+references, the Entry Template, and the Log Format Examples. No orphaned
+references to levels that don't exist in the definitions.
+
+**Scope tag consistency** — Every tag defined in the Contribution Types
+table must match the tags referenced in LLM Instructions. No references
+to undefined tags, no defined tags missing from the instructions.
+
+**Log format example validity** — The jsonl example must be valid JSON
+with field names matching the documented field reference. The toon example
+must match its declared schema header. The markdown example must follow
+the entry template structure.
+
+**Version consistency** — The spec and log schema versions must match
+across all three locations: the file header, the Current Version heading
+in Migration, and the latest `CHANGELOG.md` entry.
+
+**Entry template field coverage** — The fields in the markdown entry
+template must correspond to the keys in the jsonl example and the columns
+in the toon schema header.
+
+**Section structure** — Expected sections exist and follow the documented
+order: human-facing context, configuration, LLM instructions, reference
+material, migration, log.
+
+**Log section is empty** — The Log section must contain only
+`*No entries yet.*` — this is the distributable template.
+
+**No security hazards** — The spec must not contain secrets, credentials,
+API keys, tokens, or sensitive identifiers anywhere — including examples,
+code blocks, comments, and HTML. No executable content (script tags, HTML
+event handlers), no encoded/obfuscated blobs (base64, hex), no external
+URLs in log format examples or entry templates, and no prompt injection
+patterns (system/role prompts, instruction overrides, hidden directives
+in HTML comments).
+
+When a test script exists, run it before committing changes to the spec.
+Until then, verify these checks manually or by grepping.
 
 ### Commit messages
 
