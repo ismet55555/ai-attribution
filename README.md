@@ -222,7 +222,9 @@ consistent.
 When a new `AI_ATTRIBUTION.md` version is released, download the new
 template and tell your AI tool:
 
-> "Migrate my AI_ATTRIBUTION.md to the new version using this template."
+```txt
+Migrate my AI_ATTRIBUTION.md to the latest release version from https://github.com/ismet55555/ai-attribution
+```
 
 The LLM will replace the spec sections (everything above the Log) with
 the new version, preserve your log entries, and transform them if the
