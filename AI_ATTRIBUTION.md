@@ -1,39 +1,22 @@
 # AI Attribution Log
 
-`Spec version: 1.0.3` · `Log schema: 1.0.0`
+`Spec version: 1.0.4` · `Log schema: 1.0.0`
 
 ## Why Use This File
 
-Software breaks. When it does, the first question is "who wrote this and
-what were they thinking?" If AI was involved, you need to know *how* it was
-involved — did it generate the logic, or did it just format the output? This
-file answers that question before you're under pressure.
+When software breaks, the first question is who wrote it and why. If AI was
+involved, you need to know how — this file answers that before you're under
+pressure.
 
-- **It's your first stop when something breaks.** When a bug surfaces and you
-  need to trace the origin, this log tells you immediately whether that
-  module was AI-generated, human-written, or a collaboration — and what kind
-  of work the AI did. Knowing whether to distrust the logic itself or just
-  the implementation changes how you debug. Without this record, you're
-  reverse-engineering authorship under pressure.
-
-- **It protects you over time.** Six months from now, you won't remember
-  which parts were AI-assisted and which were yours. This file remembers for
-  you. When a teammate asks "did AI write this?" you'll have a precise answer
-  instead of a vague shrug.
-
-- **It captures contributions that are invisible without a record.** Creative
-  vision, design decisions, rejecting bad AI suggestions, hand-tuning
-  constants until something feels right — none of that shows up in code. This
-  file is where that work gets documented.
-
-- **It makes your human work more credible, not less.** When you explicitly
-  log that AI scaffolded a config file but you designed the architecture and
-  wrote the core algorithm, that's verifiable evidence of authorship. A
-  portfolio with honest attribution beats one with unspoken ambiguity.
-
-- **It's honest in a way the industry isn't yet.** Most AI disclosure is
-  binary: "used AI" or "didn't use AI." Reality is a spectrum. This file
-  captures the spectrum, and that nuance is what makes it trustworthy.
+- **First stop for debugging.** It shows who did what so you know where to
+  focus.
+- **Memory over time.** It preserves who did what long after details fade.
+- **Invisible work gets logged.** Design decisions, rejections, and tuning
+  show up here.
+- **Credible human authorship.** Clear AI boundaries strengthen the human
+  record.
+- **Honest spectrum, not a binary.** Real work isn't just "used AI" or
+  "didn't."
 
 Be honest. The value of this file is zero if it's performative.
 
@@ -71,95 +54,64 @@ consolidation.*
 **Log format:** `markdown`
 
 *Options: `markdown`, `jsonl`, `toon`. Controls how entries in the Log
-section are formatted. See Log Schema below for what each looks
+section are formatted. See Log Entries → Log Format below for what each looks
 like. If you change this setting, the LLM must convert all existing log
 entries to the new format without losing any content.*
 
----
-
-## Other Attribution Mechanisms
-
-This file is designed to coexist with other attribution and licensing files
-in your project. It does not replace or depend on any of them, and they
-should not depend on it.
-
-- `LICENSE` — Legal licensing. Separate concern.
-- `CONTRIBUTORS` — Who contributed to the project. This file tracks
-  *how*, not just *who*.
-- `CHANGELOG` — What changed. This file tracks *who did the changing*.
-- `CODEOWNERS` — Who reviews what. Separate concern.
-- Third-party attribution (e.g., `NOTICE`, `THIRD-PARTY-LICENSES`) —
-  Dependency credits. Separate concern.
-
-If your project uses any of these, keep them as they are. This file adds a
-layer of information they don't capture: the human-AI collaboration story.
-
----
-
 ## AI Config Integration
 
-If your project uses an AI configuration file in the root directory (such as
-`claude.md`, `CLAUDE.md`, `copilot-instructions.md`, `.cursorrules`, or
-similar), add the following section to it so your AI tool knows this file
-exists and when to read it:
+If your project has an AI config file in the root (e.g., `claude.md`,
+`CLAUDE.md`, `copilot-instructions.md`, `.cursorrules`), add this section so
+your AI tool knows when to read this file:
 
 ```markdown
 ## AI Attribution
 
-This project maintains an `AI_ATTRIBUTION.md` file in the project root. It
-is a living log of human and AI contributions to this project, with
-instructions for how to maintain it.
+This project maintains an `AI_ATTRIBUTION.md` file in the project root: a
+living log of human and AI contributions and how to maintain it.
 
 Read this file when:
-- You are about to log a contribution (task completed, feature done, session ending)
+- You are about to log a contribution (task done, feature done, session ending)
 - The user asks about attribution or AI involvement
-- You need to check the current configuration
+- You need the current configuration
 
-Do not read this file on every task. Only access it when updating or
-referencing it.
+Do not read this file on every task; only when updating or referencing it.
 
 When writing a log entry, focus on these sections:
-- Configuration (for current settings)
-- Involvement Levels (for level selection)
-- Contribution Types (for scope tagging)
-- Log Schema → Fields (for required/optional fields)
-- Log (for placement)
+- Configuration (current settings)
+- Involvement Levels (level selection)
+- Contribution Types (scope tagging)
+- Log Entries → Log Fields (required/optional fields)
+- Log (placement)
 
-Skip these sections (they are for humans or for rare operations):
-- Why Use This File (human-facing rationale)
-- Other Attribution Mechanisms (human reference)
-- Granularity descriptions (you already have the setting from Configuration)
-- Log Schema → format examples (unless the format setting was just changed)
-- Migration (only relevant during version upgrades)
+Skip these sections unless needed:
+- Why Use This File (human rationale)
+- Granularity descriptions (you already have the setting)
+- Log Entries → Log Format (unless the format just changed)
+- Migration (only during version upgrades)
 ```
 
-This keeps token usage low by loading the full file only when needed and
-directing the LLM to the sections that matter for the current operation.
+This keeps token usage low by directing the LLM to the relevant sections.
 
 ---
 
 ## Migration
 
-This section is used when upgrading to a newer version of AI_ATTRIBUTION.md.
+Use this section to upgrade to newer versions of AI_ATTRIBUTION.md. To
+upgrade: download the new template, then tell your LLM "migrate my
+AI_ATTRIBUTION.md to the new version using this template." The LLM replaces
+everything above `## Log`, preserves your entries, and transforms them only if
+the log schema changed.
 
-Each new version includes migration instructions here. To upgrade: download
-the new version's template, then tell your LLM "migrate my AI_ATTRIBUTION.md
-to the new version using this template." The LLM will replace everything
-above the Log with the new spec, preserve your log entries, and transform
-entries if the log schema changed.
-
-For non-breaking updates (spec version change only), the LLM replaces
-everything above `## Log` and leaves your entries untouched.
-
-For breaking updates (log schema change), the migration instructions below
-will specify exactly what fields to add, rename, or restructure. Your git
-history preserves the pre-migration state.
+Non-breaking updates (spec only) leave entries untouched. Breaking updates
+(schema change) are defined below; your git history preserves the pre-migration
+state.
 
 ### Current Version
 
-**Spec:** `1.0.3` · **Log schema:** `1.0.0`
+**Spec:** `1.0.4` · **Log schema:** `1.0.0`
 
-This is the initial release. No migrations available.
+No migrations available yet.
 
 ### Migration Notes
 
@@ -190,12 +142,9 @@ decorative — it is a living record of who contributed what to this project.
 
 ### Responsibility
 
-Regardless of who wrote any given line, the human is always the responsible
-party. AI cannot be accountable. This log does not distribute blame — it
-enables the human to take *informed* responsibility rather than vague
-responsibility. When something works, the log shows who deserves credit.
-When something breaks, the log shows where to look. In both cases, the human
-owns the outcome. Your job is to make that ownership precise.
+The human is always responsible; AI cannot be accountable. This log does not
+assign blame — it enables informed responsibility and clear credit or
+traceability when things work or break. Your job is to make ownership precise.
 
 ### Your Responsibilities
 
@@ -328,7 +277,7 @@ owns the outcome. Your job is to make that ownership precise.
 ### How to Write an Entry
 
 - Place new entries at the top of the Log section (reverse chronological).
-- Use the format shown in the Log Schema section.
+- Use the format shown in the Log Entries → Log Format section.
 - For `markdown` format: separate each field with a blank line for
   readability, and separate entries with a horizontal rule (`---`).
 - Be concrete: reference file names, function names, concepts — not vague
@@ -447,11 +396,8 @@ significant enough to note, log it.*
 
 ## Contribution Types
 
-Each entry includes a scope tag describing what area of work the entry
-covers. This serves two purposes: it captures the *kind* of contribution AI
-made (creative direction vs. implementation vs. testing), and it helps trace
-accountability when something breaks (was the buggy module AI-generated
-code, or AI-suggested architecture?).
+Each entry includes a scope tag for the primary area of work. It captures the
+kind of AI contribution and helps trace accountability when something breaks.
 
 Use one of the following tags, or up to two separated by a comma:
 
@@ -475,15 +421,17 @@ specify one, use `general`.
 
 ---
 
-## Logging Rules
+## Log Entries Specification
 
-### Logging Timing
+### Logging Rules
+
+#### Logging Timing
 
 Entries should be logged as close as possible to the time of contribution.
 Delayed logging increases the risk of inaccurate classification due to memory
 decay or hindsight bias.
 
-### Unit of Work
+#### Unit of Work
 
 A unit of work should represent a coherent task, feature, or meaningful development
 step — not individual prompts or micro-interactions.
@@ -494,9 +442,7 @@ commit or feature description, it likely belongs in one entry.
 
 ---
 
-## Log Schema
-
-### Fields
+### Log Fields
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -510,7 +456,9 @@ commit or feature description, it likely belongs in one entry.
 | `commits` | list | no | Git commit hashes or ranges |
 | `notes` | text | no | Extra context, post-hoc changes, rejection reasons |
 
-### `markdown` (default)
+### Log Format
+
+#### `markdown` (default)
 
 The most readable format. Best for projects where humans frequently read
 the log directly.
@@ -525,7 +473,7 @@ the log directly.
 **Commits:** `["3b7c9d1..6a2e8f4"]`
 ```
 
-### `jsonl`
+#### `jsonl`
 
 One JSON object per entry, one entry per line. Best for projects that may
 programmatically parse the log, or when token efficiency matters more than
@@ -538,7 +486,7 @@ readability. The entire log section is wrapped in a code block.
 ```
 ~~~
 
-### `toon`
+#### `toon`
 
 Token-Oriented Object Notation. Most token-efficient format — uses CSV-style
 tabular rows with a declared schema header. Best when the log is long and
@@ -562,4 +510,3 @@ quoted. Null values are empty between delimiters.
 ## Log
 
 *No entries yet.*
-

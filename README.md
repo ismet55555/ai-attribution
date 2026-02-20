@@ -147,15 +147,14 @@ three steps:
    - Configuration (for current settings)
    - Involvement Levels (for level selection)
    - Contribution Types (for scope tagging)
-   - Log Schema → Fields (for required/optional fields)
+   - Log Entries → Log Fields (for required/optional fields)
    - Log (for placement)
 
    Skip these sections (they are for humans or for rare operations):
 
    - Why Use This File (human-facing rationale)
-   - Other Attribution Mechanisms (human reference)
    - Granularity descriptions (you already have the setting from Configuration)
-   - Log Schema → format examples (unless the format setting was just changed)
+   - Log Entries → Log Format (unless the format setting was just changed)
    - Migration (only relevant during version upgrades)
    ```
 

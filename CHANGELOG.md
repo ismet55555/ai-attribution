@@ -11,6 +11,23 @@ structure). These are tracked independently in the file header.
 
 ---
 
+## [1.0.4] — 2026-02-20
+
+### Changed
+
+- Shortened **Why Use This File** to reduce length while preserving intent.
+- Tightened **AI Config Integration**, **Migration**, and **Responsibility**
+  text for brevity.
+- Simplified **Contribution Types** introduction.
+- Organized log guidance under **Log Entries** with sub-sections for rules,
+  fields, and format.
+
+### Removed
+
+- **Other Attribution Mechanisms** section.
+
+---
+
 ## [1.0.3] — 2026-02-19
 
 ### Added
