@@ -11,6 +11,22 @@ structure). These are tracked independently in the file header.
 
 ---
 
+## [1.0.3] — 2026-02-19
+
+### Added
+
+- **Logging Rules** section with timing guidance and unit-of-work definition.
+- Clarification that the log is a chronological ledger of collaboration events,
+  not a state snapshot of current code ownership.
+- Guidance for classifying iterative/fluid collaboration under ASSISTED.
+
+### Changed
+
+- **Logging Rules** and **Log Schema** are now separate sections — rules
+  (timing, unit of work) are distinct from schema (fields, format examples).
+
+---
+
 ## [1.0.2] — 2026-02-19
 
 ### Added

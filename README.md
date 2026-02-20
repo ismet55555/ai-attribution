@@ -2,9 +2,9 @@
 
 # `AI_ATTRIBUTION.md`
 
-**Know exactly what the AI did and what it didn't.**
+**Know exactly who directed the work and what the AI did.**
 
-[![Spec Version](https://img.shields.io/badge/spec-v1.0.2-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
+[![Spec Version](https://img.shields.io/badge/spec-v1.0.3-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
 [![Log Schema](https://img.shields.io/badge/schema-v1.0.0-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
 [![License: CC-BY-4.0](https://img.shields.io/badge/license-CC--BY--4.0-green?style=flat-square)](LICENSE)
 [![Markdown](https://img.shields.io/badge/format-markdown-purple?style=flat-square)](#how-it-works)
@@ -12,35 +12,37 @@
 
 </div>
 
-Most AI disclosure is binary: "used AI" or "didn't use AI." Reality is a
-spectrum. This standard captures that spectrum. Who actually had creative
-control, what the AI actually did, and what the human contributed. So you
-have a precise record instead of a vague shrug.
+Most AI disclosure is binary: “used AI” or “didn’t use AI.”  
+Reality isn’t binary, it’s a spectrum.
 
-[`AI_ATTRIBUTION.md`](AI_ATTRIBUTION.md) is a single markdown file you add
-to your project. It tracks what AI tools did and what you did — for every
-task, feature, or fix where AI was involved. The file includes instructions
-that tell AI tools how to fill it in automatically as you work. You download
-it, configure a few settings, and your AI coding tools start logging entries
-on their own. No extra tooling needed.
+[`AI_ATTRIBUTION.md`](AI_ATTRIBUTION.md) captures that spectrum.  
+Built from research across publishing policy, copyright guidance,
+automation theory, and software provenance standards, it defines
+a practical way to record who exercised creative control, what
+the AI actually did, and what the human contributed, so you have
+a precise account instead of a vague disclaimer.
 
-You download it, configure a few settings, and your AI coding tools start
-logging entries on their own. **No extra installations or tooling needed,
-it's just a markdown file.**
+It’s a single markdown file you add to your project.  
+Configure it once, and your AI tools automatically log contributions as you work.
+
+No extra installations. No services. No tooling.  
+Just a file in your repo.
 
 ## Table of Contents
 
-- [Why](#why)
+- [Why?](#why)
+- [Features](#features)
 - [Quick Start](#quick-start)
 - [Setup](#setup)
 - [Configuration](#configuration)
 - [How It Works](#how-it-works)
-- [Version Upgrading / Migration](#version-upgrading--migration)
+- [Upgrading and Migration](#upgrading-and-migration)
 - [Versioning](#versioning)
+- [Background \& Positioning](#background--positioning)
 - [Contributing](#contributing)
 - [License](#license)
 
-## Why
+## Why?
 
 - **Debugging.** When a bug surfaces, you need to know whether that module
   was AI-generated, human-written, or a collaboration. This log tells you
@@ -53,6 +55,23 @@ it's just a markdown file.**
   algorithm") beats unspoken ambiguity.
 - **Accountability.** Six months from now, you won't remember which parts
   were AI-assisted. This file remembers for you.
+
+## Features
+
+- **Six-level creative control spectrum** — Precise classification beyond binary AI disclosure.
+- **Decision-test based levels** — No percentages, no scoring, no ambiguity.
+- **Collaboration semantics** — Captures who directed the work, not just whether AI was used.
+- **Scope tagging** — Distinguishes concept, design, code, test, docs, config, etc.
+- **Plain markdown file** — No tooling, no service, no vendor lock-in.
+- **Configurable granularity** — `COARSE`, `STANDARD`, or `FINE` logging.
+- **Multiple log formats** — `markdown`, `jsonl`, or `toon` (machine-readable).
+- **Chronological ledger model** — Records evolution over time, not ownership snapshots.
+- **Automatic migration** — LLM upgrades spec while preserving log history.
+- **Dual versioning (spec + schema)** — Safe evolution without breaking existing logs.
+- **Multi-tool support** — One entry can record multiple AI systems.
+- **Git-backed integrity** — Commit references corroborate entries.
+- **Adoption-first design** — Human always wins; no enforcement or AI policing.
+- **Portable & license-friendly** — Single CC-BY file, works in any repo.
 
 ## Quick Start
 
@@ -104,45 +123,47 @@ three steps:
 2. **Tell your AI tool about it.** Add the
    [integration snippet](AI_ATTRIBUTION.md#ai-config-integration) to your
    AI config file. Common ones:
-
-    - **Cross-tool** — `AGENTS.md`
-    - **Claude Code** — `CLAUDE.md`
-    - **GitHub Copilot** — `.github/copilot-instructions.md`
-    - **Cursor** — `.cursorrules`
-    - **Windsurf** — `.windsurfrules`
+   - **Cross-tool** — `AGENTS.md`
+   - **Claude Code** — `CLAUDE.md`
+   - **GitHub Copilot** — `.github/copilot-instructions.md`
+   - **Cursor** — `.cursorrules`
+   - **Windsurf** — `.windsurfrules`
 
     <details>
     <summary>Expand to view the AI instruction snippet</summary>
 
-    ```md
-    ## AI Attribution
+   ```md
+   ## AI Attribution
 
-    This project maintains an `AI_ATTRIBUTION.md` file in the project
-    root. It is a living log of human and AI contributions to this
-    project, with instructions for how to maintain it.
+   This project maintains an `AI_ATTRIBUTION.md` file in the project
+   root. It is a living log of human and AI contributions to this
+   project, with instructions for how to maintain it.
 
-    Read this file when:
-    - You are about to log a contribution (task completed, feature done, session ending)
-    - The user asks about attribution or AI involvement
-    - You need to check the current configuration
+   Read this file when:
 
-    Do not read this file on every task. Only access it when updating or
-    referencing it.
+   - You are about to log a contribution (task completed, feature done, session ending)
+   - The user asks about attribution or AI involvement
+   - You need to check the current configuration
 
-    When writing a log entry, focus on these sections:
-    - Configuration (for current settings)
-    - Involvement Levels (for level selection)
-    - Contribution Types (for scope tagging)
-    - Log Schema → Fields (for required/optional fields)
-    - Log (for placement)
+   Do not read this file on every task. Only access it when updating or
+   referencing it.
 
-    Skip these sections (they are for humans or for rare operations):
-    - Why Use This File (human-facing rationale)
-    - Other Attribution Mechanisms (human reference)
-    - Granularity descriptions (you already have the setting from Configuration)
-    - Log Schema → format examples (unless the format setting was just changed)
-    - Migration (only relevant during version upgrades)
-    ```
+   When writing a log entry, focus on these sections:
+
+   - Configuration (for current settings)
+   - Involvement Levels (for level selection)
+   - Contribution Types (for scope tagging)
+   - Log Schema → Fields (for required/optional fields)
+   - Log (for placement)
+
+   Skip these sections (they are for humans or for rare operations):
+
+   - Why Use This File (human-facing rationale)
+   - Other Attribution Mechanisms (human reference)
+   - Granularity descriptions (you already have the setting from Configuration)
+   - Log Schema → format examples (unless the format setting was just changed)
+   - Migration (only relevant during version upgrades)
+   ```
 
     </details>
 
@@ -156,12 +177,11 @@ three steps:
 See the [Configuration section](AI_ATTRIBUTION.md#configuration) in
 `AI_ATTRIBUTION.md` for full descriptions and details.
 
-| Configuration | Description | Options | Default |
-|---------------|-------------|---------|---------|
-| **Granularity** | How often entries are created | `COARSE`, `STANDARD`, `FINE` | `STANDARD` |
-| **Consolidation** | When old entries get grouped into summaries | Any duration or `never` | `90 days` |
-| **Log format** | How entries are written | `markdown`, `jsonl`, `toon` | `markdown` |
-
+| Configuration     | Description                                 | Options                      | Default    |
+| ----------------- | ------------------------------------------- | ---------------------------- | ---------- |
+| **Granularity**   | How often entries are created               | `COARSE`, `STANDARD`, `FINE` | `STANDARD` |
+| **Consolidation** | When old entries get grouped into summaries | Any duration or `never`      | `90 days`  |
+| **Log format**    | How entries are written                     | `markdown`, `jsonl`, `toon`  | `markdown` |
 
 ## How It Works
 
@@ -180,14 +200,14 @@ Each log entry captures:
 The core of the standard. Six levels based on **who had creative control**
 over the work:
 
-| Level | Tag | Who Led | AI's Role |
-|-------|-----|---------|-----------|
-| :red_circle: | `GENERATED` | Human set the goal | AI produced the work |
-| :orange_circle: | `ASSISTED` | Human designed the approach | AI helped build it |
-| :yellow_circle: | `GUIDED` | Human adopted AI's approach | AI suggested the direction |
-| :large_blue_circle: | `INFORMED` | Human built independently | AI answered questions |
-| :green_circle: | `REVIEWED` | Human owned the work | AI checked it |
-| :white_circle: | `NONE` | Human owned the work | No AI involvement |
+| Level               | Tag         | Who Led                     | AI's Role                  |
+| ------------------- | ----------- | --------------------------- | -------------------------- |
+| :red_circle:        | `GENERATED` | Human set the goal          | AI produced the work       |
+| :orange_circle:     | `ASSISTED`  | Human designed the approach | AI helped build it         |
+| :yellow_circle:     | `GUIDED`    | Human adopted AI's approach | AI suggested the direction |
+| :large_blue_circle: | `INFORMED`  | Human built independently   | AI answered questions      |
+| :green_circle:      | `REVIEWED`  | Human owned the work        | AI checked it              |
+| :white_circle:      | `NONE`      | Human owned the work        | No AI involvement          |
 
 Each level includes a decision test in the spec to make classification
 consistent.
@@ -204,7 +224,7 @@ consistent.
 **Commits:** ["3b7c9d1..6a2e8f4"]
 ```
 
-## Version Upgrading / Migration
+## Upgrading and Migration
 
 When a new `AI_ATTRIBUTION.md` version is released, download the new
 template and tell your AI tool:
@@ -228,9 +248,117 @@ update (adding or renaming fields) does.
 
 See [CHANGELOG.md](CHANGELOG.md) for version history.
 
+## Background & Positioning
+
+AI transparency systems already exist — but they solve different problems.
+
+Most current standards focus on one of the following:
+
+- **Disclosure** — Was AI used?
+- **Authorship & ownership** — Who legally owns the work?
+- **Provenance integrity** — Has this artifact been tampered with?
+- **Supply chain transparency** — What models, datasets, and dependencies were involved?
+- **Build reproducibility** — How was this artifact produced?
+
+**AI_ATTRIBUTION.md operates in a different layer: collaboration semantics.**
+
+It answers a narrower — but operationally critical — question:
+
+> During this task, who exercised creative control and what role did AI actually play?
+
+### The Transparency Stack
+
+AI transparency mechanisms can be understood as layered systems, each answering a different question:
+
+1. **Risk & Governance Frameworks**  
+   _What is the regulatory or societal risk?_  
+   Examples: EU AI Act, NIST AI RMF
+
+2. **Cryptographic Provenance**  
+   _Can the history of this artifact be verified and tamper-evident?_  
+   Examples: C2PA / Content Credentials
+
+3. **Supply Chain & AI-BOM**  
+   _What models, datasets, and dependencies were involved?_  
+   Examples: CycloneDX ML-BOM, SPDX 3.x, OWASP AIBOM
+
+4. **Build Provenance**  
+   _How was this artifact produced and by which systems?_  
+   Examples: SLSA, in-toto
+
+5. **Collaboration Semantics**  
+   _Who exercised creative control during the work?_  
+   → **AI_ATTRIBUTION.md**
+
+Most deployed systems address layers 1–4.  
+This standard focuses on layer 5.
+
+### How This Standard Compares
+
+| System Type                | Core Question                   | Creative Control Captured? | Cryptographically Verifiable? | Developer-Native? |
+| -------------------------- | ------------------------------- | -------------------------- | ----------------------------- | ----------------- |
+| Binary Disclosure Policies | "Was AI used?"                  | Minimal                    | No                            | No                |
+| Copyright Guidance         | "Who owns this?"                | Artifact-level             | No                            | No                |
+| C2PA                       | "Can this history be verified?" | No                         | Yes                           | No                |
+| CycloneDX / SPDX (AI-BOM)  | "What components were used?"    | No                         | Yes                           | Partial           |
+| SLSA / in-toto             | "How was this built?"           | No                         | Yes                           | DevOps            |
+| **AI_ATTRIBUTION.md**      | "Who directed the work?"        | **Yes (task-level)**       | No (by design)                | **Yes**           |
+
+### Why This Layer Matters
+
+Binary disclosure collapses nuance.  
+Provenance systems avoid authorship judgment.  
+AI-BOM standards inventory components.  
+Build provenance records pipelines.
+
+None of these systems capture:
+
+- Whether AI suggested the architecture or merely formatted code
+- Whether the human designed the algorithm or adopted the AI’s
+- Whether AI was advisory, generative, or purely review-based
+- How creative control shifted during development
+
+That is the gap this standard fills.
+
+It is intentionally:
+
+- **Voluntary** rather than enforced
+- **Repo-native** rather than compliance-driven
+- **Semantic** rather than cryptographic
+- **Chronological** rather than state-based
+
+### Non-Goals
+
+This standard does **not**:
+
+- Provide legal protection
+- Verify honesty
+- Replace C2PA or SBOM/AIBOM standards
+- Perform AI detection
+- Serve as regulatory compliance
+- Evaluate system risk
+
+It defines collaboration semantics only.
+
+### Key References
+
+- [U.S. Copyright Office. _Copyright and Artificial Intelligence_ (2023–2024)](https://www.copyright.gov/ai/)
+- [Coalition for Content Provenance and Authenticity (C2PA) Specification](https://c2pa.org/specifications/)
+- [CycloneDX ML-BOM](https://cyclonedx.org/)
+- [SPDX 3.x Specification (AI & Dataset profiles)](https://spdx.github.io/spdx-spec/)
+- [SLSA Provenance Specification](https://slsa.dev/spec/)
+- [in-toto Attestation Framework](https://in-toto.io/)
+- [Sheridan, T. & Verplank, W. (1978). _Human and Computer Control of Undersea Teleoperators_](https://www.researchgate.net/publication/23882567_Human_and_Computer_Control_of_Undersea_Teleoperators)
+- [Parasuraman, R., Sheridan, T., & Wickens, C. (2000). _A Model for Types and Levels of Human Interaction with Automation_](https://ieeexplore.ieee.org/document/844354)
+
+> **NOTE:** AI_ATTRIBUTION.md does not compete with these systems. It complements them by standardizing the collaboration layer they leave undefined.
+
 ## Contributing
 
-Contributions are always welcome! This is a specification — changes affect
+Contributions are always welcome! This is a relatively young project and
+could use extra attention and thought around it.
+
+This is a specification — changes affect
 every project that adopts the standard, so all non-trivial changes start
 with an issue for discussion before a PR.
 

@@ -1,6 +1,6 @@
 # AI Attribution Log
 
-`Spec version: 1.0.2` · `Log schema: 1.0.0`
+`Spec version: 1.0.3` · `Log schema: 1.0.0`
 
 ## Why Use This File
 
@@ -157,7 +157,7 @@ history preserves the pre-migration state.
 
 ### Current Version
 
-**Spec:** `1.0.2` · **Log schema:** `1.0.0`
+**Spec:** `1.0.3` · **Log schema:** `1.0.0`
 
 This is the initial release. No migrations available.
 
@@ -376,7 +376,9 @@ contribution** to the work.
 Levels reflect the state of the work **at the time of logging**. If
 AI-generated code is later heavily refactored by the human, the original
 entry stands and the refactoring is logged as a new entry at its own level.
-Over time, the log tells the full story of how authorship evolved.
+This log is a chronological ledger of collaboration events, not a state
+snapshot of current code ownership. Over time, the log tells the full
+story of how authorship evolved.
 
 ### Level Definitions
 
@@ -394,6 +396,8 @@ The human made the key design, structural, or creative decisions and AI
 carried out the implementation, or the human and AI collaborated
 iteratively with the human steering. The human would have known what the
 output should look like before AI produced it.
+When collaboration is iterative and fluid (e.g., back-and-forth pair programming),
+select the level representing who determined the structure and direction of the work.
 *Decision test: Did the human specify the approach, structure, or logic —
 not just the goal?*
 
@@ -468,6 +472,25 @@ Tags appear in the entry title after the level:
 The LLM must always include a scope tag when creating or reformatting an
 entry. When adding a scope tag to a human's manual entry that doesn't
 specify one, use `general`.
+
+---
+
+## Logging Rules
+
+### Logging Timing
+
+Entries should be logged as close as possible to the time of contribution.
+Delayed logging increases the risk of inaccurate classification due to memory
+decay or hindsight bias.
+
+### Unit of Work
+
+A unit of work should represent a coherent task, feature, or meaningful development
+step — not individual prompts or micro-interactions.
+Fragmenting a single feature into multiple small entries to downplay AI involvement
+undermines the clarity of the log.
+Use practical engineering judgment: if the work would reasonably appear as one
+commit or feature description, it likely belongs in one entry.
 
 ---
 

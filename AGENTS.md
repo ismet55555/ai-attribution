@@ -148,13 +148,13 @@ the markdown format example structure.
 across all three locations: the file header, the Current Version heading
 in Migration, and the latest `CHANGELOG.md` entry.
 
-**Field reference coverage** — The fields in the Field Reference table
-must correspond to the keys in the jsonl example, the columns in the toon
-schema header, and the fields shown in the markdown format example.
+**Field reference coverage** — The fields in the Fields table (under Log
+Schema) must correspond to the keys in the jsonl example, the columns in
+the toon schema header, and the fields shown in the markdown format example.
 
 **Section structure** — Expected sections exist and follow the documented
 order: human-facing context, configuration, migration, LLM instructions,
-reference material, log.
+reference material (logging rules, log schema), log.
 
 **Log section is empty** — The Log section must contain only
 `*No entries yet.*` — this is the distributable template.
@@ -208,4 +208,4 @@ PRs that modify the spec should:
 - Do not reorganize the section order of `AI_ATTRIBUTION.md` without strong
   justification. The order is deliberate: human-facing context first,
   configuration second, migration third, LLM instructions fourth, reference
-  material fifth, log last.
+  material fifth (logging rules, log schema), log last.
