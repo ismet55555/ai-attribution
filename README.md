@@ -4,7 +4,7 @@
 
 **Know exactly who directed the work and what the AI did.**
 
-[![Spec Version](https://img.shields.io/badge/spec-v1.0.3-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
+[![Spec Version](https://img.shields.io/badge/spec-v1.0.4-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
 [![Log Schema](https://img.shields.io/badge/schema-v1.0.0-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
 [![License: CC-BY-4.0](https://img.shields.io/badge/license-CC--BY--4.0-green?style=flat-square)](LICENSE)
 [![Markdown](https://img.shields.io/badge/format-markdown-purple?style=flat-square)](#how-it-works)
