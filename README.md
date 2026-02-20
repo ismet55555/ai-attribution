@@ -12,21 +12,15 @@
 
 </div>
 
-Most AI disclosure is binary: “used AI” or “didn’t use AI.”  
-Reality isn’t binary, it’s a spectrum.
+Most AI disclosure is binary: “used AI” or “didn’t use AI.” Reality isn’t binary, it’s a spectrum.
 
-[`AI_ATTRIBUTION.md`](AI_ATTRIBUTION.md) captures that spectrum.  
-Built from research across publishing policy, copyright guidance,
-automation theory, and software provenance standards, it defines
-a practical way to record who exercised creative control, what
-the AI actually did, and what the human contributed, so you have
-a precise account instead of a vague disclaimer.
+[`AI_ATTRIBUTION.md`](AI_ATTRIBUTION.md) captures that spectrum. Built from research across publishing policy, copyright guidance,
+automation theory, and software provenance standards, it defines a practical way to record who exercised creative control, what
+the AI actually did, and what the human contributed, so you have a precise account instead of a vague disclaimer.
 
-It’s a single markdown file you add to your project.  
-Configure it once, and your AI tools automatically log contributions as you work.
+It’s a single markdown file you add to your project. Configure it once, and your AI tools automatically log contributions as you work.
 
-No extra installations. No services. No tooling.  
-Just a file in your repo.
+No extra installations. No services. No tooling. Just a file in your repo.
 
 ## Table of Contents
 
