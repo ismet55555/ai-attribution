@@ -258,10 +258,10 @@ Most current standards focus on one of the following:
 There are also structured **AI Attribution Statement** frameworks, such as the  
 **IBM AI Attribution Toolkit**, which generate human-readable statements describing:
 
-- The proportion of AI contribution  
-- The type of AI involvement  
-- Whether AI initiated or responded  
-- The level of human review  
+- The proportion of AI contribution
+- The type of AI involvement
+- Whether AI initiated or responded
+- The level of human review
 
 These tools are designed to produce clear, one-time attribution statements for artifacts like documents, articles, or creative works.
 
@@ -276,27 +276,27 @@ It answers a narrower — but operationally critical — question:
 AI transparency mechanisms can be understood as layered systems, each answering a different question:
 
 1. **Risk & Governance Frameworks**  
-   *What is the regulatory or societal risk?*  
+   _What is the regulatory or societal risk?_  
    Examples: EU AI Act, NIST AI RMF
 
 2. **Cryptographic Provenance**  
-   *Can the history of this artifact be verified and tamper-evident?*  
+   _Can the history of this artifact be verified and tamper-evident?_  
    Examples: C2PA / Content Credentials
 
 3. **Supply Chain & AI-BOM**  
-   *What models, datasets, and dependencies were involved?*  
+   _What models, datasets, and dependencies were involved?_  
    Examples: CycloneDX ML-BOM, SPDX 3.x, OWASP AIBOM
 
 4. **Build Provenance**  
-   *How was this artifact produced and by which systems?*  
+   _How was this artifact produced and by which systems?_  
    Examples: SLSA, in-toto
 
 5. **Attribution Statements**  
-   *How should AI involvement in this artifact be described?*  
+   _How should AI involvement in this artifact be described?_  
    Example: IBM AI Attribution Toolkit
 
 6. **Collaboration Semantics**  
-   *Who exercised creative control during the work?*  
+   _Who exercised creative control during the work?_  
    → **AI_ATTRIBUTION.md**
 
 Most deployed systems address layers 1–5.  
@@ -304,15 +304,15 @@ This standard focuses on layer 6.
 
 ### How This Standard Compares
 
-| System Type | Core Question | Creative Control Captured? | Temporal Tracking? | Machine-Readable? |
-|-------------|--------------|----------------------------|--------------------|-------------------|
-| Binary Disclosure Policies | "Was AI used?" | Minimal | No | No |
-| Copyright Guidance | "Who owns this?" | Artifact-level | No | No |
-| IBM AI Attribution Toolkit | "How should AI involvement be described?" | Partially | No | Limited |
-| C2PA | "Can this history be verified?" | No | Yes (asset-level) | Yes |
-| CycloneDX / SPDX (AI-BOM) | "What components were used?" | No | No | Yes |
-| SLSA / in-toto | "How was this built?" | No | Yes (build-level) | Yes |
-| **AI_ATTRIBUTION.md** | "Who directed the work?" | **Yes (task-level)** | **Yes (chronological)** | **Yes** |
+| System Type                | Core Question                             | Creative Control Captured? | Temporal Tracking?      | Machine-Readable? |
+| -------------------------- | ----------------------------------------- | -------------------------- | ----------------------- | ----------------- |
+| Binary Disclosure Policies | "Was AI used?"                            | Minimal                    | No                      | No                |
+| Copyright Guidance         | "Who owns this?"                          | Artifact-level             | No                      | No                |
+| IBM AI Attribution Toolkit | "How should AI involvement be described?" | Partially                  | No                      | Limited           |
+| C2PA                       | "Can this history be verified?"           | No                         | Yes (asset-level)       | Yes               |
+| CycloneDX / SPDX (AI-BOM)  | "What components were used?"              | No                         | No                      | Yes               |
+| SLSA / in-toto             | "How was this built?"                     | No                         | Yes (build-level)       | Yes               |
+| **AI_ATTRIBUTION.md**      | "Who directed the work?"                  | **Yes (task-level)**       | **Yes (chronological)** | **Yes**           |
 
 ### Why This Layer Matters
 
@@ -321,6 +321,11 @@ Attribution statements describe artifacts but do not track workflow evolution.
 Provenance systems avoid authorship judgment.  
 AI-BOM standards inventory components.  
 Build provenance records pipelines.
+
+Academic research has also explored attribution in generative AI — notably surveying how LLMs
+can cite and trace their knowledge sources (Li et al., 2023). That work addresses
+_content-level_ attribution (where did the output come from?), while this standard addresses
+_collaboration-level_ attribution (who directed the work?).
 
 None of these systems capture:
 
@@ -354,13 +359,13 @@ It defines collaboration semantics only.
 
 ### Key References
 
-- IBM Research — *AI Attribution Toolkit*  
+- IBM Research — _AI Attribution Toolkit_  
   https://research.ibm.com/blog/AI-attribution-toolkit
 
 - AI Attribution Statements (project site)  
   https://aiattribution.github.io/
 
-- U.S. Copyright Office — *Copyright and Artificial Intelligence*  
+- U.S. Copyright Office — _Copyright and Artificial Intelligence_  
   https://www.copyright.gov/ai/
 
 - Coalition for Content Provenance and Authenticity (C2PA)  
@@ -375,8 +380,11 @@ It defines collaboration semantics only.
 - SLSA Provenance Specification  
   https://slsa.dev/spec/
 
-- in-toto Attestation Framework  
+- in-toto Attestation Framework
   https://in-toto.io/
+
+- Li et al. — _A Survey of Large Language Models Attribution_
+  https://arxiv.org/abs/2311.03731
 
 > **AI_ATTRIBUTION.md complements these systems by standardizing the collaboration layer they leave undefined.**
 
