@@ -11,6 +11,29 @@ structure). These are tracked independently in the file header.
 
 ---
 
+## [1.0.5] — 2026-03-10
+
+### Added
+
+- **AI Attribution skill** for Claude Code with four commands: `log` (add
+  entries), `check` (validate entries), `graph` (visual emoji dot graph),
+  and `summary` (level counts and level × scope cross-tabulation table).
+- **Command trigger patterns** in the AI Config Integration block so
+  non-Claude-Code agents also respond to log, check, graph, and summary
+  requests.
+- `--with-skill` flag for `install.sh` to optionally install the Claude
+  Code skill alongside `AI_ATTRIBUTION.md`.
+- `--skill-only` flag for `install.sh` to install just the Claude Code
+  skill without downloading `AI_ATTRIBUTION.md`.
+
+### Changed
+
+- `install.sh` overwrite prompt now requires typing `YES` (instead of
+  `y`) and warns explicitly about potential loss of attribution log
+  entries.
+
+---
+
 ## [1.0.4] — 2026-02-20
 
 ### Changed

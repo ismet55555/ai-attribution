@@ -25,6 +25,10 @@ LICENSE             — CC-BY-4.0
 AGENTS.md           — This file (cross-tool AI agent instructions)
 CLAUDE.md           — Claude Code config (imports AGENTS.md)
 install.sh          — One-liner install script for adopters
+.claude/
+  skills/
+    ai-attribution/
+      SKILL.md            — Claude Code skill (log, check, graph, summary)
 .github/
   CONTRIBUTING.md         — Contribution guidelines and policies
   ISSUE_TEMPLATE/

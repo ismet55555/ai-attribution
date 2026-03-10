@@ -4,7 +4,7 @@
 
 **Know exactly who directed the work and what the AI did.**
 
-[![Spec Version](https://img.shields.io/badge/spec-v1.0.4-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
+[![Spec Version](https://img.shields.io/badge/spec-v1.0.5-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
 [![Log Schema](https://img.shields.io/badge/schema-v1.0.0-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
 [![License: CC-BY-4.0](https://img.shields.io/badge/license-CC--BY--4.0-green?style=flat-square)](LICENSE)
 [![Markdown](https://img.shields.io/badge/format-markdown-purple?style=flat-square)](#how-it-works)
@@ -78,19 +78,33 @@ latest release version.
 curl -sL https://raw.githubusercontent.com/ismet55555/ai-attribution/main/install.sh | sh
 ```
 
-### **Option B:** Install a specific version
+### **Option B:** Install with Claude Code skill
+
+Adds `/ai-attribution` commands (`log`, `check`, `graph`, `summary`):
+
+```bash
+curl -sL https://raw.githubusercontent.com/ismet55555/ai-attribution/main/install.sh | sh -s -- --with-skill
+```
+
+### **Option C:** Install skill only (already have AI_ATTRIBUTION.md)
+
+```bash
+curl -sL https://raw.githubusercontent.com/ismet55555/ai-attribution/main/install.sh | sh -s -- --skill-only
+```
+
+### **Option D:** Install a specific version
 
 ```bash
 curl -sL https://raw.githubusercontent.com/ismet55555/ai-attribution/main/install.sh | sh -s -- --version v1.0.0
 ```
 
-### **Option C:** Manual download
+### **Option E:** Manual download
 
 Download the latest `AI_ATTRIBUTION.md` from the
 [latest release](https://github.com/ismet55555/ai-attribution/releases/latest)
 and place it in your project root.
 
-### **Option D:** Ask your AI agent
+### **Option F:** Ask your AI agent
 
 Tell your AI coding tool to install it for you:
 
@@ -156,6 +170,17 @@ three steps:
    - Granularity descriptions (you already have the setting from Configuration)
    - Log Entries → Log Format (unless the format setting was just changed)
    - Migration (only relevant during version upgrades)
+
+   Commands:
+   - When asked to log a contribution: read AI_ATTRIBUTION.md and create an
+     entry following the LLM Instructions.
+   - When asked to check or validate the log: read AI_ATTRIBUTION.md and
+     validate all entries against the logging rules, reporting any issues.
+   - When asked for an attribution graph: parse the Log section and render a
+     row of colored emoji circles (one per entry, matching level colors), max
+     80 per row, with a legend.
+   - When asked for an attribution summary: parse the Log section and show
+     counts per level, plus a levels × scope tags cross-tabulation table.
    ```
 
     </details>
@@ -164,6 +189,10 @@ three steps:
 
 3. **Commit.** That's it! Your AI tools will start maintaining the log
    as you work.
+
+> **Claude Code users:** If you installed with `--with-skill`, you can use
+> `/ai-attribution log`, `/ai-attribution check`, `/ai-attribution graph`,
+> and `/ai-attribution summary` directly.
 
 ## Configuration
 

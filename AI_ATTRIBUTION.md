@@ -1,6 +1,6 @@
 # AI Attribution Log
 
-`Spec version: 1.0.4` · `Log schema: 1.0.0`
+`Spec version: 1.0.5` · `Log schema: 1.0.0`
 
 ## Why Use This File
 
@@ -89,6 +89,17 @@ Skip these sections unless needed:
 - Granularity descriptions (you already have the setting)
 - Log Entries → Log Format (unless the format just changed)
 - Migration (only during version upgrades)
+
+Commands:
+- When asked to log a contribution: read AI_ATTRIBUTION.md and create an
+  entry following the LLM Instructions.
+- When asked to check or validate the log: read AI_ATTRIBUTION.md and
+  validate all entries against the logging rules, reporting any issues.
+- When asked for an attribution graph: parse the Log section and render a
+  row of colored emoji circles (one per entry, matching level colors), max
+  80 per row, with a legend.
+- When asked for an attribution summary: parse the Log section and show
+  counts per level, plus a levels × scope tags cross-tabulation table.
 ```
 
 This keeps token usage low by directing the LLM to the relevant sections.
@@ -109,7 +120,7 @@ state.
 
 ### Current Version
 
-**Spec:** `1.0.4` · **Log schema:** `1.0.0`
+**Spec:** `1.0.5` · **Log schema:** `1.0.0`
 
 No migrations available yet.
 

@@ -11,6 +11,8 @@
 # Options:
 #   --version <tag>   Download a specific version (e.g., v1.0.0). Default: latest release.
 #   --force           Overwrite existing AI_ATTRIBUTION.md without prompting.
+#   --with-skill      Also install the Claude Code skill (.claude/skills/ai-attribution/SKILL.md).
+#   --skill-only      Install only the Claude Code skill (skip AI_ATTRIBUTION.md).
 #   --help            Show this help message.
 
 set -e
@@ -19,6 +21,8 @@ REPO="ismet55555/ai-attribution"
 FILE="AI_ATTRIBUTION.md"
 VERSION=""
 FORCE=0
+SKILL=0
+SKILL_ONLY=0
 
 # --- Parse arguments ---
 
@@ -30,6 +34,15 @@ while [ $# -gt 0 ]; do
       ;;
     --force)
       FORCE=1
+      shift
+      ;;
+    --with-skill)
+      SKILL=1
+      shift
+      ;;
+    --skill-only)
+      SKILL=1
+      SKILL_ONLY=1
       shift
       ;;
     --help)
@@ -64,36 +77,100 @@ if [ -z "$VERSION" ]; then
   fi
 fi
 
-# --- Check for existing file ---
+# --- Download AI_ATTRIBUTION.md (unless --skill-only) ---
 
-if [ -f "$FILE" ] && [ "$FORCE" -eq 0 ]; then
-  printf "%s already exists. Overwrite? [y/N] " "$FILE"
-  read -r answer
-  case "$answer" in
-    [Yy]*) ;;
-    *)
-      echo "Aborted."
-      exit 0
-      ;;
-  esac
+DOWNLOADED_FILE=0
+
+if [ "$SKILL_ONLY" -eq 0 ]; then
+  if [ -f "$FILE" ] && [ "$FORCE" -eq 0 ]; then
+    echo ""
+    echo "WARNING: $FILE already exists."
+    echo "Overwriting will REPLACE the entire file, including any attribution"
+    echo "log entries you have recorded. This cannot be undone (unless you have"
+    echo "committed the file to version control)."
+    echo ""
+    printf "Type YES to overwrite and lose existing contents: "
+    read -r answer
+    case "$answer" in
+      YES)
+        ;;
+      *)
+        echo "Aborted. Existing $FILE was not modified."
+        if [ "$SKILL" -eq 0 ]; then
+          exit 0
+        fi
+        # Continue to skill installation if --with-skill was also set
+        DOWNLOADED_FILE=-1
+        ;;
+    esac
+  fi
+
+  if [ "$DOWNLOADED_FILE" -eq 0 ]; then
+    URL="https://raw.githubusercontent.com/$REPO/$VERSION/$FILE"
+    HTTP_CODE=$(curl -sL -w "%{http_code}" -o "$FILE" "$URL")
+
+    if [ "$HTTP_CODE" -ne 200 ]; then
+      rm -f "$FILE"
+      echo "Error: Failed to download $FILE (HTTP $HTTP_CODE)." >&2
+      echo "Check that version '$VERSION' exists at https://github.com/$REPO/releases" >&2
+      exit 1
+    fi
+    DOWNLOADED_FILE=1
+  fi
 fi
 
-# --- Download ---
+# --- Install skill (optional) ---
 
-URL="https://raw.githubusercontent.com/$REPO/$VERSION/$FILE"
-HTTP_CODE=$(curl -sL -w "%{http_code}" -o "$FILE" "$URL")
+SKILL_DIR=".claude/skills/ai-attribution"
+SKILL_FILE="$SKILL_DIR/SKILL.md"
 
-if [ "$HTTP_CODE" -ne 200 ]; then
-  rm -f "$FILE"
-  echo "Error: Failed to download $FILE (HTTP $HTTP_CODE)." >&2
-  echo "Check that version '$VERSION' exists at https://github.com/$REPO/releases" >&2
-  exit 1
+if [ "$SKILL" -eq 1 ]; then
+  if [ -f "$SKILL_FILE" ] && [ "$FORCE" -eq 0 ]; then
+    printf "%s already exists. Overwrite? [y/N] " "$SKILL_FILE"
+    read -r answer
+    case "$answer" in
+      [Yy]*) ;;
+      *)
+        echo "Skipped skill installation."
+        SKILL=0
+        ;;
+    esac
+  fi
+
+  if [ "$SKILL" -eq 1 ]; then
+    mkdir -p "$SKILL_DIR"
+    SKILL_URL="https://raw.githubusercontent.com/$REPO/$VERSION/$SKILL_FILE"
+    SKILL_HTTP=$(curl -sL -w "%{http_code}" -o "$SKILL_FILE" "$SKILL_URL")
+
+    if [ "$SKILL_HTTP" -ne 200 ]; then
+      rm -f "$SKILL_FILE"
+      echo "Warning: Could not download skill file (HTTP $SKILL_HTTP). Continuing without it." >&2
+      SKILL=0
+    fi
+  fi
 fi
 
-echo "AI Attribution Log $VERSION installed successfully."
-echo "  -> $FILE"
+# --- Summary ---
+
+echo ""
+echo "AI Attribution Log $VERSION — installation complete."
+if [ "$DOWNLOADED_FILE" -eq 1 ]; then
+  echo "  -> $FILE"
+fi
+if [ "$SKILL" -eq 1 ]; then
+  echo "  -> $SKILL_FILE"
+fi
 echo ""
 echo "Next steps:"
-echo "  1. Open $FILE and edit the Configuration section"
-echo "  2. Add a reference in your AI config file (see the AI Config Integration section)"
-echo "  3. Commit and start logging"
+STEP=1
+if [ "$DOWNLOADED_FILE" -eq 1 ]; then
+  echo "  $STEP. Open $FILE and edit the Configuration section"
+  STEP=$((STEP + 1))
+  echo "  $STEP. Add a reference in your AI config file (see the AI Config Integration section)"
+  STEP=$((STEP + 1))
+fi
+if [ "$SKILL" -eq 1 ]; then
+  echo "  $STEP. Use /ai-attribution log, check, graph, or summary in Claude Code"
+  STEP=$((STEP + 1))
+fi
+echo "  $STEP. Commit and start logging"
