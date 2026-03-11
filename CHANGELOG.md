@@ -15,9 +15,10 @@ structure). These are tracked independently in the file header.
 
 ### Added
 
-- **AI Attribution skill** for Claude Code with four commands: `log` (add
+- **AI Attribution skill** for Claude Code with five commands: `log` (add
   entries), `check` (validate entries), `graph` (visual emoji dot graph),
-  and `summary` (level counts and level × scope cross-tabulation table).
+  `summary` (level counts and level × scope cross-tabulation table), and
+  `insights` (AI collaboration pattern analysis with actionable suggestions).
 - **Command trigger patterns** in the AI Config Integration block so
   non-Claude-Code agents also respond to log, check, graph, and summary
   requests.

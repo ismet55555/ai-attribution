@@ -100,6 +100,9 @@ Commands:
   80 per row, with a legend.
 - When asked for an attribution summary: parse the Log section and show
   counts per level, plus a levels × scope tags cross-tabulation table.
+- When asked for attribution insights: analyze the full Log section and
+  report on AI reliance patterns, collaboration style, scope trends,
+  strengths, and actionable suggestions.
 ```
 
 This keeps token usage low by directing the LLM to the relevant sections.

@@ -2,28 +2,100 @@
 name: ai-attribution
 description: >
   Manage AI Attribution Log entries in AI_ATTRIBUTION.md. Use when the user
-  asks to log attribution, check/validate the log, view an attribution graph,
-  or get an attribution summary.
-argument-hint: "[log | check | graph | summary]"
+  asks to log attribution, add an attribution entry, check/validate the log,
+  view an attribution graph, get an attribution summary, analyze AI usage,
+  or get insights about their AI collaboration patterns. Also use when the
+  user says "attribute this", "log this work", "what's my AI usage",
+  "track this AI work", "how much AI did I use", "show my attribution",
+  "validate my log", or "AI contribution breakdown". Make sure to use this
+  skill whenever the user mentions attribution logging, AI collaboration
+  tracking, AI involvement levels, contribution history, or wants to
+  record, review, or analyze how AI was used in their project — even if
+  they don't explicitly say "attribution".
+argument-hint: "[log | check | graph | summary | insights]"
+allowed-tools: Read, Edit, Grep, Glob, Bash(git *), Bash(ls *), Bash(python3 *)
 ---
 
 # AI Attribution Skill
 
-This skill manages the `AI_ATTRIBUTION.md` file in the project root.
-Before executing any command, read `AI_ATTRIBUTION.md` to get the current
-configuration, involvement levels, contribution types, log field definitions,
-and existing log entries.
+Manages the `AI_ATTRIBUTION.md` file in the project root. The command is
+determined by `$ARGUMENTS` — defaults to `log` when no argument is given.
+
+## Prerequisites
+
+Before any command, verify `AI_ATTRIBUTION.md` exists in the project root.
+If it does not exist, tell the user to install it:
+
+```
+curl -sL https://raw.githubusercontent.com/ismet55555/ai-attribution/main/install.sh | sh
+```
+
+Then read `AI_ATTRIBUTION.md` to get the current configuration, involvement
+levels, contribution types, log field definitions, and existing log entries.
+The spec is the single source of truth — do not hardcode level names, scope
+tags, or field definitions in this skill.
+
+## Recent context (for `log` command)
+
+### Git activity
+!`git log --oneline -10 2>/dev/null || echo "No git history"`
+!`git diff --stat HEAD~1 2>/dev/null || echo "No recent diff"`
+
+### Past session context
+
+Claude Code stores session transcripts for each project at:
+```
+~/.claude/projects/-<path-with-dashes>/<session-id>.jsonl
+```
+
+To gather context from recent sessions, derive the project session
+directory from the current working directory by replacing `/` with `-`
+and prepending `-`. For example:
+- `/home/user/projects/my-app` → `~/.claude/projects/-home-user-projects-my-app/`
+
+Then:
+1. List `.jsonl` files in that directory, sorted by modification time
+   (newest first).
+2. Skip the most recent file (that is the current session).
+3. From the next 3 files (the 3 most recent previous sessions), extract
+   user and assistant messages where `type` is `"user"` or `"assistant"`
+   and the top-level `message.content` contains text.
+4. For each session, summarize what was worked on in 1-2 sentences. Focus
+   on: what tasks were discussed, what files were changed, what decisions
+   were made. Ignore system messages, command outputs, and tool calls.
+5. Use these session summaries as additional context when determining what
+   to log — they help identify work that spans multiple sessions.
+
+Each JSONL line has this structure:
+```json
+{"type": "user|assistant", "message": {"content": [{"type": "text", "text": "..."}]}, "timestamp": "...", ...}
+```
+
+If the session directory does not exist or has fewer than 2 files, skip
+this step silently.
 
 ## Commands
 
-### `log` (default when no argument given)
+Route on `$ARGUMENTS`:
+- Empty or `log` → **log**
+- `check` or `validate` → **check**
+- `graph` or `visual` → **graph**
+- `summary` or `stats` → **summary**
+- `insights` or `analyze` → **insights**
+
+---
+
+### `log`
 
 Add a new attribution entry to the log.
 
 1. Read `AI_ATTRIBUTION.md` — focus on: Configuration, Involvement Levels,
    Contribution Types, Log Entries → Log Fields, Log.
-2. Determine what was worked on. Check recent git activity (`git log` and
-   `git diff`) to infer the task, or ask the user if unclear.
+2. Gather context about what was worked on:
+   a. Use the git activity above plus any additional `git log` or `git diff`.
+   b. Read past session transcripts (see "Past session context" above) to
+      understand work that may span multiple conversations.
+   c. Combine both sources. If still unclear, ask the user.
 3. Classify the involvement level using the decision tests in the
    Involvement Levels section. Walk through each test starting from
    GENERATED and stop at the first match.
@@ -45,10 +117,8 @@ Validate all existing log entries against the spec rules.
 2. Validate every entry for:
    - All required fields present (date, title, level, scope, human;
      ai and tool are required when level is not NONE)
-   - Level is one of the six valid levels (GENERATED, ASSISTED, GUIDED,
-     INFORMED, REVIEWED, NONE)
-   - Scope tags are from the defined vocabulary (concept, design, code,
-     content, test, config, docs, general)
+   - Level names match the spec's defined levels exactly
+   - Scope tags are from the spec's defined vocabulary
    - Entries are in reverse chronological order
    - No duplicate entries (same date + title + level)
    - No security violations: no secrets, credentials, API keys, prompt
@@ -91,18 +161,51 @@ Show attribution statistics and a cross-tabulation breakdown.
    ```
 4. Show a cross-tabulation table with:
    - Columns (horizontal axis): involvement levels with emoji circles
-     (🔴 GENERATED, 🟠 ASSISTED, 🟡 GUIDED, 🔵 INFORMED, 🟢 REVIEWED,
-     ⚪ NONE)
-   - Rows (vertical axis): scope tags (concept, design, code, content,
-     test, config, docs, general)
+   - Rows (vertical axis): scope tags
    - Cell values: count of entries at that intersection
    - Only show rows that have at least one entry
 5. If the log is empty, say "No entries to summarize."
 
+### `insights`
+
+Analyze the attribution log and surface useful patterns about the user's
+AI collaboration habits.
+
+1. Read `AI_ATTRIBUTION.md` — focus on: Log section (all entries, including
+   human/AI descriptions, levels, scope tags, dates, and commit references).
+2. Analyze the full log and produce a report covering as many of the
+   following as the data supports. Skip any section where there is
+   insufficient data to draw a meaningful conclusion.
+
+**Quantitative analysis:**
+- **AI reliance profile:** percentage of entries at each level
+- **Scope heatmap:** which areas lean on AI vs. stay human-owned
+- **Trend over time:** is AI reliance increasing, decreasing, or shifting
+- **Delegation patterns:** what's delegated (GENERATED/ASSISTED) vs.
+  kept (INFORMED/REVIEWED/NONE)
+
+**Qualitative analysis:**
+- **Collaboration style:** delegator, pair programmer, learner, or
+  self-reliant author
+- **Strengths and comfort zones:** based on NONE and REVIEWED entries
+- **Growth opportunities:** constructive suggestions based on patterns
+- **Recurring patterns:** repeated tasks that may be learning opportunities
+- **Human contribution quality:** types of contributions the user makes
+
+3. Present the report with clear section headers. Use concrete numbers
+   and reference specific entries where helpful. Keep the tone
+   constructive and observational, not judgmental.
+4. End with 2-3 actionable suggestions tailored to the user's specific
+   patterns.
+5. If the log has fewer than 5 entries, note that insights will become
+   more useful as the log grows and provide what analysis is possible.
+6. If the log is empty, say "No entries to analyze."
+
 ## Important
 
-- Do NOT duplicate the spec rules into this skill. Always read
-  `AI_ATTRIBUTION.md` for the authoritative definitions.
+- The spec in `AI_ATTRIBUTION.md` is the single source of truth. Do NOT
+  hardcode level names, scope tags, or field definitions — always read
+  them from the file.
 - Respect the user's configured log format when creating entries.
-- When an entry has two scope tags (e.g., `design, code`), count it
-  under both tags in the summary.
+- When an entry has multiple scope tags (e.g., `design, code`), count it
+  under each tag in the summary.

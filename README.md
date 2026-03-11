@@ -80,7 +80,7 @@ curl -sL https://raw.githubusercontent.com/ismet55555/ai-attribution/main/instal
 
 ### **Option B:** Install with Claude Code skill
 
-Adds `/ai-attribution` commands (`log`, `check`, `graph`, `summary`):
+Adds `/ai-attribution` commands (`log`, `check`, `graph`, `summary`, `insights`):
 
 ```bash
 curl -sL https://raw.githubusercontent.com/ismet55555/ai-attribution/main/install.sh | sh -s -- --with-skill
@@ -181,6 +181,9 @@ three steps:
      80 per row, with a legend.
    - When asked for an attribution summary: parse the Log section and show
      counts per level, plus a levels × scope tags cross-tabulation table.
+   - When asked for attribution insights: analyze the full Log section and
+     report on AI reliance patterns, collaboration style, scope trends,
+     strengths, and actionable suggestions.
    ```
 
     </details>
@@ -192,7 +195,7 @@ three steps:
 
 > **Claude Code users:** If you installed with `--with-skill`, you can use
 > `/ai-attribution log`, `/ai-attribution check`, `/ai-attribution graph`,
-> and `/ai-attribution summary` directly.
+> `/ai-attribution summary`, and `/ai-attribution insights` directly.
 
 ## Configuration
 

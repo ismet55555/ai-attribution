@@ -170,7 +170,7 @@ if [ "$DOWNLOADED_FILE" -eq 1 ]; then
   STEP=$((STEP + 1))
 fi
 if [ "$SKILL" -eq 1 ]; then
-  echo "  $STEP. Use /ai-attribution log, check, graph, or summary in Claude Code"
+  echo "  $STEP. Use /ai-attribution log, check, graph, summary, or insights in Claude Code"
   STEP=$((STEP + 1))
 fi
 echo "  $STEP. Commit and start logging"
