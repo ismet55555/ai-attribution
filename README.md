@@ -4,8 +4,8 @@
 
 **Know exactly who directed the work and what the AI did.**
 
-[![Spec Version](https://img.shields.io/badge/spec-v1.0.5-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
-[![Log Schema](https://img.shields.io/badge/schema-v1.0.0-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
+[![Spec Version](https://img.shields.io/badge/spec-v1.0.6-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
+[![Log Schema](https://img.shields.io/badge/schema-v1.0.1-blue?style=flat-square)](https://github.com/ismet55555/ai-attribution/releases/latest)
 [![License: CC-BY-4.0](https://img.shields.io/badge/license-CC--BY--4.0-green?style=flat-square)](LICENSE)
 [![Markdown](https://img.shields.io/badge/format-markdown-purple?style=flat-square)](#how-it-works)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](https://github.com/ismet55555/ai-attribution/issues)
@@ -166,7 +166,6 @@ three steps:
 
    Skip these sections (they are for humans or for rare operations):
 
-   - Why Use This File (human-facing rationale)
    - Granularity descriptions (you already have the setting from Configuration)
    - Log Entries → Log Format (unless the format setting was just changed)
    - Migration (only relevant during version upgrades)
@@ -205,13 +204,14 @@ See the [Configuration section](AI_ATTRIBUTION.md#configuration) in
 | Configuration     | Description                                 | Options                      | Default    |
 | ----------------- | ------------------------------------------- | ---------------------------- | ---------- |
 | **Granularity**   | How often entries are created               | `COARSE`, `STANDARD`, `FINE` | `STANDARD` |
-| **Consolidation** | When old entries get grouped into summaries | Any duration or `never`      | `90 days`  |
+| **Consolidation** | When old entries get grouped into summaries | Any duration or `never`      | `60 days`  |
 | **Log format**    | How entries are written                     | `markdown`, `jsonl`, `toon`  | `markdown` |
 
 ## How It Works
 
 Each log entry captures:
 
+- **Entry ID** — unique identifier (`YYYY-MM-DD-N`) for cross-referencing
 - **Date** — when the work happened
 - **What was done** — specific files, functions, concepts
 - **Involvement level** — who had creative control (see below)
@@ -219,6 +219,7 @@ Each log entry captures:
 - **Human contribution** — what the human did
 - **AI contribution** — what the AI did, and which tool
 - **Commits** — git references that corroborate the entry
+- **Iterations** — depth of back-and-forth (`quick`, `iterative`, `extended`)
 
 ### Involvement Levels
 
@@ -240,13 +241,15 @@ consistent.
 ### Example Log Entry
 
 ```markdown
-### 2025-12-01 — Ball physics and tilt input [🟠 ASSISTED — code]
+### 2025-12-01-1 — Ball physics and tilt input [🟠 ASSISTED — code]
 
 **Human:** Designed the core tilt mechanic, tuned all physics constants.
 
 **AI (Claude):** Wrote TiltPhysics system in systems/physics.rs.
 
 **Commits:** ["3b7c9d1..6a2e8f4"]
+
+**Iterations:** iterative
 ```
 
 ## Upgrading and Migration
