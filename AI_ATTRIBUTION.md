@@ -1,31 +1,8 @@
 # AI Attribution Log
 
-`Spec version: 1.0.5` · `Log schema: 1.0.0`
+`Spec version: 1.0.6` · `Log schema: 1.0.1`
 
-## Why Use This File
-
-When software breaks, the first question is who wrote it and why. If AI was
-involved, you need to know how — this file answers that before you're under
-pressure.
-
-- **First stop for debugging.** It shows who did what so you know where to
-  focus.
-- **Memory over time.** It preserves who did what long after details fade.
-- **Invisible work gets logged.** Design decisions, rejections, and tuning
-  show up here.
-- **Credible human authorship.** Clear AI boundaries strengthen the human
-  record.
-- **Honest spectrum, not a binary.** Real work isn't just "used AI" or
-  "didn't."
-
-Be honest. The value of this file is zero if it's performative.
-
----
-
-**Disclaimer:**
-*This project maintains a transparent record of AI involvement. Every
-contribution — human and AI — is logged honestly with its level of
-involvement, corroborating commit references, and human sign-off.*
+A transparent, honest record of human and AI contributions to this project.
 
 *The absence of an AI credit log in other projects is not evidence of lower
 AI involvement. It is evidence of less transparency.*
@@ -43,7 +20,7 @@ then leave the rest of the file to be maintained by you and your AI tools.
 per task), `FINE` (one entry per interaction/decision). See the Granularity
 section below for full descriptions.*
 
-**Consolidate entries older than:** `90 days`
+**Consolidate entries older than:** `60 days`
 
 *When the log grows long, the LLM will consolidate entries older than this
 threshold into summary entries. See consolidation rules in LLM Instructions
@@ -85,7 +62,6 @@ When writing a log entry, focus on these sections:
 - Log (placement)
 
 Skip these sections unless needed:
-- Why Use This File (human rationale)
 - Granularity descriptions (you already have the setting)
 - Log Entries → Log Format (unless the format just changed)
 - Migration (only during version upgrades)
@@ -123,7 +99,7 @@ state.
 
 ### Current Version
 
-**Spec:** `1.0.5` · **Log schema:** `1.0.0`
+**Spec:** `1.0.6` · **Log schema:** `1.0.1`
 
 No migrations available yet.
 
@@ -181,7 +157,8 @@ traceability when things work or break. Your job is to make ownership precise.
 
 4. **Tag the contribution type.** Every entry you create must include a scope
    tag from the controlled vocabulary: `concept`, `design`, `code`,
-   `content`, `test`, `config`, `docs`, `general`. Use the tag that best
+   `content`, `test`, `config`, `docs`, `learning`, `general`. Use the tag
+   that best
    describes the primary area of work. When an entry spans multiple areas,
    use the most significant one or list up to two separated by a comma. If
    the human adds a manual entry without a scope tag, use `general` when
@@ -259,12 +236,15 @@ traceability when things work or break. Your job is to make ownership precise.
 
 15. **Validate entries when writing or reading them.** Each time you add,
     reformat, or consolidate an entry, verify:
-    - All required fields are present: date, title, level, scope, human.
-      When level is not NONE, ai and tool are also required.
+    - All required fields are present: id, date, title, level, scope,
+      human. When level is not NONE, ai and tool are also required.
+    - The id follows the `YYYY-MM-DD-N` format and is unique.
     - The level is one of the six valid levels (`GENERATED`, `ASSISTED`,
       `GUIDED`, `INFORMED`, `REVIEWED`, `NONE`).
     - Scope tags are from the controlled vocabulary (`concept`, `design`,
-      `code`, `content`, `test`, `config`, `docs`, `general`).
+      `code`, `content`, `test`, `config`, `docs`, `learning`, `general`).
+    - If `iterations` is present, it is one of `quick`, `iterative`,
+      `extended`.
     - The date is valid and entries remain in reverse chronological order.
     - No duplicate entries exist (same date, title, and level).
     If any check fails, fix it silently for formatting issues (missing
@@ -288,19 +268,13 @@ traceability when things work or break. Your job is to make ownership precise.
       not links. Do not include URLs in Human, AI, or Notes fields. If a
       URL is relevant, the human can add it outside the log.
 
-### How to Write an Entry
-
-- Place new entries at the top of the Log section (reverse chronological).
-- Use the format shown in the Log Entries → Log Format section.
-- For `markdown` format: separate each field with a blank line for
-  readability, and separate entries with a horizontal rule (`---`).
-- Be concrete: reference file names, function names, concepts — not vague
-  summaries like "helped with code."
-- Include git commit hashes or ranges when available. These corroborate
-  the entry and let readers verify claims against the actual code history.
-- When in doubt, over-attribute to the human. Humans provide context, taste,
-  judgment, and direction that are hard to capture in a log but are real
-  contributions.
+17. **Resolve deferred notes on the prior entry.** When you write a new
+    entry, check the single most recent prior entry for Notes that
+    reference deferred or pending work (e.g., "not yet implemented",
+    "will be addressed", "pending"). If the current entry completes that
+    deferred work, update the prior entry's Notes to reflect the
+    resolution (e.g., append "Resolved in 2025-12-02-1"). Do not scan
+    beyond the immediately preceding entry.
 
 ---
 
@@ -308,16 +282,19 @@ traceability when things work or break. Your job is to make ownership precise.
 
 **COARSE** — One entry per feature, milestone, or major session.
 Good for early prototyping, solo hobby projects, high-level record keeping.
+Field length: 1–2 sentences per field.
 *Example: "AI assisted with initial project scaffolding."*
 
 **STANDARD** — One entry per task or meaningful unit of work.
 Good for active development, most projects, portfolio work.
+Field length: 1–4 sentences per field.
 *Example: "AI wrote the collision detection module. Human designed the game
 physics model and specified behavior."*
 
 **FINE** — One entry per significant interaction or decision point.
 Good for professional work, academic projects, anything where provenance
 matters deeply.
+Field length: no restriction.
 *Example: "Human asked how to handle edge case in tile wrapping. AI suggested
 modulo approach. Human rejected it and implemented clamping instead — AI then
 helped optimize the clamping logic."*
@@ -395,17 +372,6 @@ of the project where the human wants to explicitly stake authorship.
 *Decision test: Was AI involved in any way? If no, and the work is
 significant enough to note, log it.*
 
-### Summary Table
-
-| Level | Tag | Creative Control | AI's Role |
-|-------|-----|-----------------|-----------|
-| 🔴 | `GENERATED` | Human set the goal | AI produced the work |
-| 🟠 | `ASSISTED` | Human designed the approach | AI helped build it |
-| 🟡 | `GUIDED` | Human adopted AI's approach | AI suggested the direction |
-| 🔵 | `INFORMED` | Human built independently | AI answered questions |
-| 🟢 | `REVIEWED` | Human owned the work | AI checked it |
-| ⚪ | `NONE` | Human owned the work | No AI involvement |
-
 ---
 
 ## Contribution Types
@@ -424,6 +390,7 @@ Use one of the following tags, or up to two separated by a comma:
 | `test` | Testing, QA, validation, debugging, error handling, benchmarks |
 | `config` | Configuration, setup, tooling, CI/CD, infrastructure, dependencies |
 | `docs` | Technical documentation, API docs, READMEs, code comments, guides |
+| `learning` | Teaching, Q&A, concept explanations, skill building, knowledge transfer |
 | `general` | Used when a manual entry has no specific scope, or work spans many areas |
 
 Tags appear in the entry title after the level:
@@ -460,6 +427,7 @@ commit or feature description, it likely belongs in one entry.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
+| `id` | text | yes | Entry identifier: `YYYY-MM-DD-N` where N is the sequence number for that date (1-based). Used for cross-referencing between entries. |
 | `date` | date | yes | `YYYY-MM-DD` when the work happened |
 | `title` | text | yes | Short description of the task or unit of work |
 | `level` | enum | yes | Involvement level — one of the six defined levels, with emoji prefix |
@@ -467,24 +435,28 @@ commit or feature description, it likely belongs in one entry.
 | `human` | text | yes | What the human contributed |
 | `ai` | text | conditional | What the AI contributed — required when level is not `NONE` |
 | `tool` | text | conditional | AI tool name(s) — required when level is not `NONE` |
-| `commits` | list | no | Git commit hashes or ranges |
+| `commits` | list | no | Git commit hashes or ranges. Use `pending` when code exists but is not yet committed. Use `n/a` when no code was produced (design discussions, teaching). Omit when level is `NONE` and no commits are relevant. |
+| `iterations` | enum | no | Depth of back-and-forth: `quick` (one-shot or minimal interaction), `iterative` (multiple rounds of refinement), `extended` (significant back-and-forth, debugging cycles, or major rework). Omit when not meaningful. |
 | `notes` | text | no | Extra context, post-hoc changes, rejection reasons |
 
 ### Log Format
 
 #### `markdown` (default)
 
-The most readable format. Best for projects where humans frequently read
-the log directly.
+The most readable format. Separate each field with a blank line for
+readability, and separate entries with a horizontal rule (`---`).
+New entries go at the top (reverse chronological).
 
 ```
-### 2025-12-01 — Ball physics and tilt input [🟠 ASSISTED — code]
+### 2025-12-01-1 — Ball physics and tilt input [🟠 ASSISTED — code]
 
 **Human:** Designed the core tilt mechanic, tuned all physics constants.
 
 **AI (Claude):** Wrote TiltPhysics system in systems/physics.rs.
 
 **Commits:** `["3b7c9d1..6a2e8f4"]`
+
+**Iterations:** iterative
 ```
 
 #### `jsonl`
@@ -495,8 +467,8 @@ readability. The entire log section is wrapped in a code block.
 
 ~~~
 ```jsonl
-{"date":"2025-12-01","title":"Ball physics and tilt input","level":"🟠 ASSISTED","scope":"code","human":"Designed the core tilt mechanic, tuned all physics constants.","ai":"Wrote TiltPhysics system in systems/physics.rs.","tool":"Claude","commits":["3b7c9d1..6a2e8f4"]}
-{"date":"2025-11-10","title":"Maze generation algorithm","level":"⚪ NONE","scope":"code","human":"Wrote recursive backtracker from scratch.","ai":null,"tool":null,"commits":["8d1f3a2"]}
+{"id":"2025-12-01-1","date":"2025-12-01","title":"Ball physics and tilt input","level":"🟠 ASSISTED","scope":"code","human":"Designed the core tilt mechanic, tuned all physics constants.","ai":"Wrote TiltPhysics system in systems/physics.rs.","tool":"Claude","commits":["3b7c9d1..6a2e8f4"],"iterations":"iterative"}
+{"id":"2025-11-10-1","date":"2025-11-10","title":"Maze generation algorithm","level":"⚪ NONE","scope":"code","human":"Wrote recursive backtracker from scratch.","ai":null,"tool":null,"commits":["8d1f3a2"]}
 ```
 ~~~
 
@@ -509,9 +481,9 @@ the full spec.
 
 ~~~
 ```toon
-log[2]{date,title,level,scope,human,ai,tool,commits,notes}:
-  2025-12-01,Ball physics and tilt input,🟠 ASSISTED,code,"Designed the core tilt mechanic, tuned all physics constants.",Wrote TiltPhysics system in systems/physics.rs.,Claude,"[""3b7c9d1..6a2e8f4""]",
-  2025-11-10,Maze generation algorithm,⚪ NONE,code,Wrote recursive backtracker from scratch.,,,"[""8d1f3a2""]",
+log[2]{id,date,title,level,scope,human,ai,tool,commits,iterations,notes}:
+  2025-12-01-1,2025-12-01,Ball physics and tilt input,🟠 ASSISTED,code,"Designed the core tilt mechanic, tuned all physics constants.",Wrote TiltPhysics system in systems/physics.rs.,Claude,"[""3b7c9d1..6a2e8f4""]",iterative,
+  2025-11-10-1,2025-11-10,Maze generation algorithm,⚪ NONE,code,Wrote recursive backtracker from scratch.,,,"[""8d1f3a2""]",,
 ```
 ~~~
 

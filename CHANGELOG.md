@@ -11,6 +11,40 @@ structure). These are tracked independently in the file header.
 
 ---
 
+## [1.0.6 / schema 1.0.1] — 2026-03-13
+
+### Added
+
+- **Entry ID field** (`id`): required `YYYY-MM-DD-N` identifier for each entry,
+  enabling stable cross-references between entries.
+- **Iterations field** (`iterations`): optional enum (`quick`, `iterative`,
+  `extended`) indicating depth of back-and-forth collaboration.
+- **`learning` scope tag**: covers teaching, Q&A, concept explanations, skill
+  building, and knowledge transfer — previously shoehorned into `general`.
+- **LLM responsibility #17**: resolve deferred notes on the immediately
+  preceding entry when the current entry completes that work.
+- **Field length guidance** per granularity level: COARSE (1–2 sentences per
+  field), STANDARD (1–4 sentences per field), FINE (no restriction).
+- **Standardized `commits` field values**: `pending` for uncommitted code,
+  `n/a` for non-code entries, omit when not relevant.
+
+### Changed
+
+- **Default consolidation threshold** from 90 days to 60 days.
+- **"Why Use This File"** replaced with a one-line summary for token
+  efficiency.
+- **Disclaimer** trimmed to the essential transparency statement.
+- **Markdown format section** now includes entry placement and separator
+  guidance (previously in "How to Write an Entry").
+
+### Removed
+
+- **Summary Table** — redundant with Level Definitions.
+- **"How to Write an Entry"** section — guidance absorbed into existing
+  responsibilities and format section.
+
+---
+
 ## [1.0.5] — 2026-03-10
 
 ### Added

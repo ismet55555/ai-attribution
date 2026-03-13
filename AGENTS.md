@@ -135,9 +135,9 @@ scope tags) — they verify that whatever is defined is referenced
 consistently throughout the document.
 
 **Level consistency** — Every level defined in the Level Definitions
-section must appear identically in the Summary Table, all LLM Instructions
-references, the Log Schema fields, and the format examples. No orphaned
-references to levels that don't exist in the definitions.
+section must appear identically in all LLM Instructions references, the
+Log Schema fields, and the format examples. No orphaned references to
+levels that don't exist in the definitions.
 
 **Scope tag consistency** — Every tag defined in the Contribution Types
 table must match the tags referenced in LLM Instructions. No references
