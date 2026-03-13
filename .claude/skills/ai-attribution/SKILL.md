@@ -100,12 +100,22 @@ Add a new attribution entry to the log.
    Involvement Levels section. Walk through each test starting from
    GENERATED and stop at the first match.
 4. Select the scope tag(s) from Contribution Types.
-5. Construct the entry in the configured log format (markdown, jsonl, or
+5. Assign an entry id in the format `YYYY-MM-DD-N` where N is the
+   sequence number for that date (1-based). Count existing entries for
+   that date to determine N.
+6. Determine the `iterations` value (`quick`, `iterative`, or `extended`)
+   based on the depth of back-and-forth in the work. Include it when
+   meaningful; omit for trivial entries.
+7. Respect the field length limits for the configured granularity level
+   (see the Granularity section in the spec).
+8. Check the most recent prior entry for deferred/pending notes. If the
+   current entry resolves that work, update the prior entry's Notes.
+9. Construct the entry in the configured log format (markdown, jsonl, or
    toon — see the Configuration section).
-6. Show the complete entry to the user for review and confirmation.
-7. Only after confirmation, append the entry to the Log section (newest
-   first, reverse chronological order). Replace `*No entries yet.*` if
-   this is the first entry.
+10. Show the complete entry to the user for review and confirmation.
+11. Only after confirmation, append the entry to the Log section (newest
+    first, reverse chronological order). Replace `*No entries yet.*` if
+    this is the first entry.
 
 ### `check`
 
@@ -115,10 +125,13 @@ Validate all existing log entries against the spec rules.
    Fields, Involvement Levels (valid level names), Contribution Types
    (valid scope tags).
 2. Validate every entry for:
-   - All required fields present (date, title, level, scope, human;
+   - All required fields present (id, date, title, level, scope, human;
      ai and tool are required when level is not NONE)
+   - Entry id follows the `YYYY-MM-DD-N` format and is unique
    - Level names match the spec's defined levels exactly
    - Scope tags are from the spec's defined vocabulary
+   - If `iterations` is present, value is `quick`, `iterative`, or
+     `extended`
    - Entries are in reverse chronological order
    - No duplicate entries (same date + title + level)
    - No security violations: no secrets, credentials, API keys, prompt

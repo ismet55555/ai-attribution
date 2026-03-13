@@ -46,8 +46,9 @@ Shows the entry for confirmation before writing.
 
 ### `/ai-attribution check`
 
-Validates every log entry for: required fields, valid levels, valid scope
-tags, chronological order, no duplicates, and no security violations.
+Validates every log entry for: required fields (including entry id),
+valid levels, valid scope tags, valid iterations values, unique ids,
+chronological order, no duplicates, and no security violations.
 
 ### `/ai-attribution graph`
 
